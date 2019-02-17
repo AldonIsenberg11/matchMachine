@@ -1,0 +1,17 @@
+{
+  "name": "docker-node-express-mongo-vue",
+  "version": "1.0.0",
+  "description": "Starter template",
+  "main": "index.js",
+  "engines": {
+    "node": "~10.10.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Aldon Isenberg",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
+}
