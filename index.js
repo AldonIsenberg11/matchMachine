@@ -10,7 +10,7 @@ const wrestlers = [
   { id: 3, name: 'Wrestler 3'}
 ]
 
-app.get('/', (req, res) => {res.send('Hello World')})
+app.get('/', (req, res) => {res.send(`Hello World\n${JSON.stringify(wrestlers, null, 2)}`)})
 
 app.get('/api/wrestlers', (req, res) => {res.send(wrestlers)})
 

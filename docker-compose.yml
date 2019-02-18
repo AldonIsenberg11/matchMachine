@@ -1,0 +1,18 @@
+version: "3"
+services:
+  dockermongovue:
+    container_name: dockermongovue
+    restart: always
+    build: .
+    ports:
+      - "3000:3000"
+    links:
+      - mongovue
+  mongovue:
+    image: mongo:4.0
+    container_name: mongovue
+    ports:
+      - 27017:27017
+    volumes:
+      - ./data/mongo:/data/db
+    # command: mongod --bind_ip=0.0.0.0

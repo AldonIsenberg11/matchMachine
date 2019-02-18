@@ -2,16 +2,23 @@
   "name": "docker-node-express-mongo-vue",
   "version": "1.0.0",
   "description": "Starter template",
-  "main": "index.js",
+  "private": true,
   "engines": {
     "node": "~10.10.0"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "dev": "nodemon index.js"
   },
   "author": "Aldon Isenberg",
   "license": "ISC",
   "dependencies": {
     "express": "^4.16.4"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.10",
+    "webpack": "^4.29.4",
+    "webpack-cli": "^3.2.3"
   }
 }
