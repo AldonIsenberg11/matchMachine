@@ -14,7 +14,7 @@ GraphQL
 
 To Start:
 
-npm run webpackDevServer
+npm run dev
 
 ---
 

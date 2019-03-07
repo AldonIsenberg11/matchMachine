@@ -4,17 +4,43 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const webpack = require('webpack');
 
 module.exports = {
-  entry: './src/main.js',
-  // entry: './src-fail-attempt-1/clientEntry.js',
+  entry: './src/client/main.js',
   module: {
     rules: [
-      { test: /\.js$/, use: 'babel-loader' },
-      { test: /\.vue$/, use: 'vue-loader' },
-      { test: /\.css$/, use: ['vue-style-loader', 'css-loader']},
+      {
+        test: /\.js?$/,
+        exclude: /node_modules/,
+        loader: 'babel-loader',
+      },
+      {
+        test: /\.vue$/,
+        loader: 'vue-loader',
+        exclude: /\.png?$/
+      },
+      {
+        test: /\.css$/,
+        use: [
+          'vue-style-loader',
+          'css-loader'
+        ]
+      },
+      {
+        test: /\.coffee$/,
+        use: [
+          {
+            loader: 'coffee-loader',
+            options: {
+              transpile: {
+                presets: ['env']
+              }
+            }
+          }
+        ]
+      }
     ]
   },
   devServer: {
-    open: true,
+    // open: true, # This will auto-open the project in default browser
     hot: true,
   },
   plugins: [
