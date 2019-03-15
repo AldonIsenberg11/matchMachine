@@ -1,12 +1,13 @@
 const merge = require('webpack-merge');
-const common = require('./webpack.common.js');
+const config = require('./webpack.config.js');
 
-module.exports = merge(common, {
+module.exports = merge(config, {
   mode: 'development',
   devtool: 'inline-source-map',
   devServer: {
-    contentBase: './dist',
-    // open: false, // This will auto-open the project in default browser
-    hot: true
+    contentBase: 'dist',
+    open: false, // This will auto-open the project in default browser, could also add --open to npm script to make this work
+    hot: true, // Hot reloading
+    overlay: true
   }
 });

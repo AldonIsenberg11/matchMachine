@@ -7,8 +7,8 @@
     "node": "~10.10.0"
   },
   "scripts": {
-    "start": "webpack-dev-server --open --config webpack.dev.js",
-    "build": "webpack --config webpack.prod.js"
+    "start": "webpack-dev-server --config=webpack.dev.js",
+    "build": "webpack --config=webpack.prod.js"
   },
   "author": "Aldon Isenberg",
   "license": "ISC",

@@ -9,14 +9,12 @@ module.exports = {
   },
   output: {
     filename: '[name].bundle.js',
-    path: path.resolve(__dirname, 'dist')
+    path: path.resolve(__dirname, './dist')
   },
   plugins: [
     new CleanWebpackPlugin(),
     new VueLoaderPlugin(),
-    new HtmlWebpackPlugin({
-      template: './src/index.html'
-    })
+    new HtmlWebpackPlugin({ template: './src/index.html' }) //https://github.com/jantimon/html-webpack-plugin/blob/master/docs/template-option.md
   ],
   module: {
     rules: [
