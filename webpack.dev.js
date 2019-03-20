@@ -8,6 +8,9 @@ module.exports = merge(config, {
     contentBase: 'dist',
     open: false, // This will auto-open the project in default browser, could also add --open to npm script to make this work
     hot: true, // Hot reloading
-    overlay: true
+    overlay: true,
+    stats: {
+      color: true
+    }
   }
 });

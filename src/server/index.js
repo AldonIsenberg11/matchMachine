@@ -1,22 +1,26 @@
 const Joi     = require('joi')
 const express = require("express")
+const cors    = require('cors')
+
 const app     = express()
-// const cors    = require('cors') #Not sure if we need this yet, not in package.json
 
+//Middleware
 app.use(express.json())
-// app.use(cors())
+app.use(cors())
 
-const db = require('./services/shared-db.js')
+// const db = require('./services/shared-db.js')
+//
+// db.connect()
 
-db.connect()
+// const wrestlers = [
+//   { id: 1, name: 'Wrestler 1'},
+//   { id: 2, name: 'Wrestler 2'},
+//   { id: 3, name: 'Wrestler 3'}
+// ]
 
-const wrestlers = [
-  { id: 1, name: 'Wrestler 1'},
-  { id: 2, name: 'Wrestler 2'},
-  { id: 3, name: 'Wrestler 3'}
-]
+const wrestlers = require('./routes/api/wrestlers')
 
-const posts = require('./routes/api/matches')
+app.use('/api/wrestlers', wrestlers)
 
 app.get('/', (req, res) => {res.send(`Hello World\n${JSON.stringify(wrestlers, null, 2)}`)})
 
@@ -67,5 +71,5 @@ function validateWrestler(wrestler) {
 //   res.send(wrestler)
 // })
 
-const port = process.env.PORT || 3002
+const port = process.env.PORT || 8081
 app.listen(port, () => console.log(`Listening on port ${port}!`))
