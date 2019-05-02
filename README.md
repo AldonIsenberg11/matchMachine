@@ -5,7 +5,12 @@
 npm install
 ```
 
-### Run in development
+### To start front end:
+```
+npm run start
+```
+
+### To start back end:
 ```
 npm run dev
 ```
@@ -23,10 +28,6 @@ Tools used for tech stack
 - Webpack
 - Vue.js
 - GraphQL
-
----
-
-To Start:
 
 ---
 
