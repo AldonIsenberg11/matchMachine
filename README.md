@@ -1,20 +1,32 @@
+# wrestleDB
+
+### Project setup
+```
+npm install
+```
+
+### Run in development
+```
+npm run dev
+```
+
+---
+
 Tools used for tech stack
 
-Git
-NPM  
-Node/Express/Joi
-- Need to implement cors for Express
-Docker
-MongoDB
-Webpack
-Vue.js
-GraphQL
+- Git
+- NPM  
+- Node/Express/Joi
+- - Need to implement cors for Express
+- Docker
+- MongoDB
+- Webpack
+- Vue.js
+- GraphQL
 
 ---
 
 To Start:
-
-npm run dev
 
 ---
 
@@ -22,29 +34,6 @@ https://medium.freecodecamp.org/how-to-create-a-vue-js-app-using-single-file-com
 
 https://www.youtube.com/watch?v=X-JZ-QPApUs&t=924s
 
----
-
-# wrestle-db
-
-## Project setup
-```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
 ---
 Match Views
 
