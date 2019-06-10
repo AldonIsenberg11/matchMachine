@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Home from './app/views/Home.vue'
 import Match from './app/views/Match.vue'
 import MatchUnderway from './app/views/MatchUnderway.vue'
+import Wrestlers from './app/views/Wrestlers.vue'
 
 Vue.use(Router)
 
@@ -32,6 +33,16 @@ export default new Router({
       // // which is lazy-loaded when the route is visited.
       // component: () => import(/* webpackChunkName: "matchUnderway" */ './client/views/MatchUnderway.vue')
       component: MatchUnderway
+    },
+    {
+      path: '/wrestlers',
+      name: 'wrestlers',
+      // TODO: Get this lazy loading working
+      // // route level code-splitting
+      // // this generates a separate chunk (about.[hash].js) for this route
+      // // which is lazy-loaded when the route is visited.
+      // component: () => import(/* webpackChunkName: "matchUnderway" */ './client/views/MatchUnderway.vue')
+      component: Wrestlers
     }
   ]
 })

@@ -19,7 +19,7 @@ npm-debug.log
 data
 private
 cookie
-shell-env.*.sh
+*.sh
 
 src/**/*.map
 test/**/*.map

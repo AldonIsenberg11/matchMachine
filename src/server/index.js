@@ -4,10 +4,6 @@ const cors    = require('cors')
 
 const app     = express()
 
-//Middleware
-app.use(express.json())
-app.use(cors())
-
 // const db = require('./services/shared-db.js')
 //
 // db.connect()
@@ -20,6 +16,10 @@ app.use(cors())
 
 const wrestlers = require('./routes/api/wrestlers')
 
+//Middleware
+app.use(express.json())
+app.use(cors())
+
 app.use('/api/wrestlers', wrestlers)
 
 app.get('/', (req, res) => {res.send(`Hello World\n${JSON.stringify(wrestlers, null, 2)}`)})
@@ -27,14 +27,18 @@ app.get('/', (req, res) => {res.send(`Hello World\n${JSON.stringify(wrestlers, n
 app.get('/api/wrestlers', (req, res) => {res.send(wrestlers)})
 
 app.post('/api/wrestlers', (req, res) => {
+
   const { error } = validateWrestler(req.body) // result.error
+
   if (error) return res.status(400).send(error.details[0].message)
 
   const wrestler = {
     id: wrestlers.length + 1,
     name: req.body.name
   }
+
   wrestlers.push(wrestler)
+
   res.send(wrestler)
 })
 
@@ -72,4 +76,4 @@ function validateWrestler(wrestler) {
 // })
 
 const port = process.env.PORT || 8081
-app.listen(port, () => console.log(`Listening on port ${port}!`))
+app.listen(port, () => console.log(`Express App listening on port ${port}!`))

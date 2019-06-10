@@ -1,3 +1,23 @@
+Left off trying to implement express properly with Mongo on back-end
+
+-Using `npm run dev`
+
+
+CURRENT STATUS: https://www.youtube.com/watch?v=X-JZ-QPApUs
+
+need to get rest of post, put delete for wrestler collection.
+
+- Test with
+
+Then on to creating a UI to be able to do same CRUD operations.
+
+Then creating Vuex store to share between 2 components.
+
+Then Re-evaluate game plan.
+
+
++_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_
+
 # wrestleDB
 
 ### Project setup
@@ -20,9 +40,8 @@ npm run dev
 Tools used for tech stack
 
 - Git
-- NPM  
+- NPM
 - Node/Express/Joi
-- - Need to implement cors for Express
 - Docker
 - MongoDB
 - Webpack

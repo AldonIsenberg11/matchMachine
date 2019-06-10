@@ -3,10 +3,14 @@
     <div id="nav">
       <router-link to="/">Home</router-link> |
       <router-link to="/match">New Match</router-link>
+      <router-link to="/wrestlers">View/Add Wrestler</router-link>
     </div>
     <router-view/>
   </div>
 </template>
+
+
+
 
 <style>
 #app {
