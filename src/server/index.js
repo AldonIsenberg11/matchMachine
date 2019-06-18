@@ -1,18 +1,9 @@
 const Joi     = require('joi')
 const express = require("express")
 const cors    = require('cors')
+const path    = require('path')
 
 const app     = express()
-
-// const db = require('./services/shared-db.js')
-//
-// db.connect()
-
-// const wrestlers = [
-//   { id: 1, name: 'Wrestler 1'},
-//   { id: 2, name: 'Wrestler 2'},
-//   { id: 3, name: 'Wrestler 3'}
-// ]
 
 const wrestlers = require('./routes/api/wrestlers')
 
@@ -22,7 +13,13 @@ app.use(cors())
 
 app.use('/api/wrestlers', wrestlers)
 
-app.get('/', (req, res) => {res.send(`Hello World\n${JSON.stringify(wrestlers, null, 2)}`)})
+// Static folder
+app.use(express.static(path.resolve(__dirname, '../../dist/')))
+
+// Handle SPA
+app.get(/.*/, (req, res) => res.sendFile(path.resolve(__dirname, '../../dist/index.html')))
+
+// app.get('/', (req, res) => {res.send(`Hello World\n${JSON.stringify(wrestlers, null, 2)}`)})
 
 app.get('/api/wrestlers', (req, res) => {res.send(wrestlers)})
 

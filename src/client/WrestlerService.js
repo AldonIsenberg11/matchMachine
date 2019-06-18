@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const url = 'http://localhost:8081/api/wrestlers/'
+const url = 'api/wrestlers/'
 
 class WrestlerService {
   // Get Wrestlers
