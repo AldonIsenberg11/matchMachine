@@ -23,3 +23,5 @@ cookie
 
 src/**/*.map
 test/**/*.map
+
+src/client
