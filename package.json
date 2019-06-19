@@ -10,7 +10,8 @@
     "start": "npm install && node src/server/index.js",
     "dev-server": "webpack-dev-server --config=webpack.dev.js",
     "build": "webpack --config=webpack.prod.js",
-    "dev": "nodemon src/server/index.js"
+    "dev": "nodemon src/server/index.js",
+    "heroku-postbuild": "webpack -p --config=webpack.prod.js --progress"
   },
   "author": "Aldon Isenberg",
   "license": "ISC",

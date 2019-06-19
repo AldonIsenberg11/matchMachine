@@ -6,6 +6,7 @@ lib-cov
 *.pid
 *.gz
 env.*.sh
+node_modules
 pids
 logs
 results
@@ -15,6 +16,7 @@ results
 npm-debug.log
 .DS_Store
 *_mapsrc
+data
 private
 cookie
 *.sh
