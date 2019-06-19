@@ -23,4 +23,3 @@ cookie
 
 src/**/*.map
 test/**/*.map
-dist

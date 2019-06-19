@@ -7,11 +7,10 @@
     "node": "~10.10.0"
   },
   "scripts": {
-    "start": "npm run-script build && node src/server/index.js",
+    "start": "node src/server/index.js",
+    "dev-server": "webpack-dev-server --config=webpack.dev.js",
     "build": "webpack --config=webpack.prod.js",
-    "dev": "npm run-script build-dev && nodemon src/server/index.js",
-    "build-dev": "webpack --config=webpack.dev.js",
-    "dev-server": "webpack-dev-server --config=webpack.dev.js"
+    "dev": "nodemon src/server/index.js"
   },
   "author": "Aldon Isenberg",
   "license": "ISC",

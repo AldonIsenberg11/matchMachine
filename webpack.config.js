@@ -14,7 +14,7 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(),
     new VueLoaderPlugin(),
-    new HtmlWebpackPlugin({ template: __dirname + '/src/index.html' }) //https://github.com/jantimon/html-webpack-plugin/blob/master/docs/template-option.md
+    new HtmlWebpackPlugin({ template: path.resolve(__dirname, './src/index.html') }) //https://github.com/jantimon/html-webpack-plugin/blob/master/docs/template-option.md
   ],
   module: {
     rules: [
