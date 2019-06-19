@@ -6,7 +6,6 @@ lib-cov
 *.pid
 *.gz
 env.*.sh
-node_modules
 pids
 logs
 results
@@ -23,5 +22,3 @@ cookie
 
 src/**/*.map
 test/**/*.map
-
-src/client
