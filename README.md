@@ -1,17 +1,5 @@
-Left off trying to implement express properly with Mongo on back-end
 
--Using `npm run dev`
-
-
-CURRENT STATUS: https://www.youtube.com/watch?v=X-JZ-QPApUs
-
-need to get rest of post, put delete for wrestler collection.
-
-- Test with
-
-Then on to creating a UI to be able to do same CRUD operations.
-
-Then creating Vuex store to share between 2 components.
+Next create Vuex store to share between 2 components.
 
 Then Re-evaluate game plan.
 
@@ -25,15 +13,14 @@ Then Re-evaluate game plan.
 npm install
 ```
 
-### To start front end:
-```
-npm run start
-```
-
-### To start back end:
+### To start development:
 ```
 npm run dev
 ```
+
+### Pushing to Production:
+
+- Currently master branch on github is set to auto-deploy to wrestledb.aldonisenberg.com
 
 ---
 
@@ -52,7 +39,6 @@ Tools used for tech stack
 
 https://medium.freecodecamp.org/how-to-create-a-vue-js-app-using-single-file-components-without-the-cli-7e73e5b8244f
 
-https://www.youtube.com/watch?v=X-JZ-QPApUs&t=924s
 
 ---
 Match Views
