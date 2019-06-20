@@ -10,8 +10,7 @@
     "start": "node src/server/index.js",
     "build": "webpack --mode=production --config=webpack.prod.js",
     "dev": "webpack-dev-server --config=webpack.dev.js",
-    "dev2": "nodemon src/server/index.js",
-    "sheroku-spostbuild": "webpack -p --config=webpack.prod.js --progress"
+    "dev2": "nodemon src/server/index.js"
   },
   "author": "Aldon Isenberg",
   "license": "ISC",
