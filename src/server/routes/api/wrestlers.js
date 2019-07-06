@@ -15,6 +15,10 @@ router.get('/', async (req, res) => {
 // Add matches
 router.post('/', async (req, res) => {
   console.log("Posting wrestler:\n\nreq.body: ", JSON.stringify(req.body, null, 2))
+
+  const { error } = validateWrestler(req.body)
+  if (error) return res.status(400).send(error.details[0].message)
+
   const wrestlers = await loadWrestlerCollection()
 
   await wrestlers.insertOne({

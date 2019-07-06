@@ -34,6 +34,7 @@ Tools used for tech stack
 - Webpack
 - Vue.js
 - GraphQL
+- JWT
 
 ---
 
