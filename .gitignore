@@ -6,7 +6,7 @@ lib-cov
 *.pid
 *.gz
 env.*.sh
-node_modules
+
 pids
 logs
 results
