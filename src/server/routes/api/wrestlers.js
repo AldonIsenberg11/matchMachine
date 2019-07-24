@@ -4,47 +4,34 @@ const Joi     = require('joi')
 
 const router = express.Router()
 
+// Mongoose Wrestler model
+const Wrestlers = require('../../models/wrestlerSchema')
+
+
 // Get matches
 router.get('/', async (req, res) => {
-  console.log(`\n\nGetting wrestlers:\n${JSON.stringify(req.body, null, 2)}\n\n`)
-  // res.send('Hellooooo')
-  const wrestlers = await loadWrestlerCollection()
-  res.send(await wrestlers.find({}).toArray())
+  res.send(await Wrestlers.find())
 })
 
 // Add matches
 router.post('/', async (req, res) => {
-  console.log("Posting wrestler:\n\nreq.body: ", JSON.stringify(req.body, null, 2))
-
   const { error } = validateWrestler(req.body)
   if (error) return res.status(400).send(error.details[0].message)
 
-  const wrestlers = await loadWrestlerCollection()
-
-  await wrestlers.insertOne({
+  wrestler = new Wrestlers({
     name: req.body.name,
     createdAt: new Date()
   })
+
+  wrestler.save((err) => {
+    if (err) return err
+  })
+
   res.status(201).send(`Successfully added wrestler: ${req.body.name}`)
-  // const { error } = validateWrestler(req.body) // result.error
-  // if (error) return res.status(400).send(error.details[0].message)
-
-  // const wrestler = {
-  //   id: wrestlers.length + 1,
-  //   name: req.body.name
-  // }
-
-  // wrestlers.push(wrestler)
-
-  // res.send(wrestler)
 })
 
 
-
-
 // Update matches
-
-
 
 // router.put('/:id', (req, res) => {
 //   const wrestler = wrestlers.find(c => c.id === parseInt(req.params.id)) // Look up the wrestler
@@ -62,21 +49,11 @@ router.post('/', async (req, res) => {
 
 // Delete matches
 router.delete('/:id', async (req, res) => {
-  const wrestlers = await loadWrestlerCollection()
-  await wrestlers.deleteOne({_id: new mongodb.ObjectID(req.params.id)})
+  // const wrestlers = await loadWrestlerCollection()
+  await Wrestlers.deleteOne({_id: new mongodb.ObjectID(req.params.id)})
+  console.log('did it did it')
   res.status(200).send("Successfully deleted wrestler")
-
-
-
-  // const wrestler = wrestlers.find(c => c.id === parseInt(req.params.id)) // Look up the wrestler
-  // if (!wrestler) return res.status(404).send('The wrestler with the given ID was not found.') // If not existing, return 404
-
-  // const index = wrestlers.indexOf(wrestler)
-  // wrestlers.splice(index, 1) // Delete
-  // res.send(wrestler) // Return the same wrestler
 })
-
-
 
 
 // Functions
@@ -88,19 +65,5 @@ function validateWrestler(wrestler) {
   console.log("Joi Validation: ", Joi.validate(wrestler, schema))
   return Joi.validate(wrestler, schema)
 }
-
-
-
-async function loadWrestlerCollection() {
-  console.log(`LOADING wrestlers`)
-  const client = await mongodb.MongoClient.connect(encodeURI(process.env.MONGO_CLIENT), {
-    useNewUrlParser: true
-  })
-  return client.db('wrestledb').collection('wrestlers')
-}
-
-
-
-
 
 module.exports = router

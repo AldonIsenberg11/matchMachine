@@ -1,12 +1,15 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 let Schema = mongoose.Schema;
 
 let wrestlerSchema = new Schema ({
   usawId           : String,
-  email            : String,
-  firstName        : String,
-  lastName         : String,
+  email            : {type: String, default: ""},
+
+  name           : {type: String, required: true},
+  createdAt      : Date,
+  // firstName        : {type: String, required: true},
+  // lastName         : {type: String, required: true},
   dob              : Date,
   phone            : String,
   gender           : String,
@@ -15,12 +18,7 @@ let wrestlerSchema = new Schema ({
   city             : String,
   state            : String,
   zip              : String,
-  parentFirstName  : String,
-  parentLastName   : String,
-  parentEmail      : String,
-  parent2FirstName : String,
-  parent2LastName  : String,
-  parent2Email     : String
+  guardians        : [String]
 });
 
 let Wrestler = mongoose.model('Wrestler', wrestlerSchema);

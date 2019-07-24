@@ -15,6 +15,7 @@ module.exports = {
     mongoose.connection.on("open", function() {
       console.log(`MongoDB connected to[${connection.db.databaseName}]`.grey.bgRed)
     })
-    mongoose.connect('mongodb://localhost:27017/wrestle-db', { useNewUrlParser : true } )
+    mongoose.connect(process.env.MONGO_CLIENT, { useNewUrlParser : true } )
   }
+  //TO DO: Add disconnect for future CLI tasks
 }
