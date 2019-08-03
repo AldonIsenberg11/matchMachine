@@ -1,26 +1,36 @@
-const Joi       = require('joi')
+// require("@babel/core").transform("code", {
+//   plugins: ["@babel/plugin-transform-runtime"]
+// })
+// require("babel-runtime/regenerator")
+// require("webpack-hot-middleware/client")
+
+// const Joi       = require('joi')
 const express   = require("express")
 const cors      = require('cors')
 const path      = require('path')
-const mongoose  = require('mongoose')
+// const mongoose  = require('mongoose')
+const webpack   = require('webpack')
 const db        = require('./services/shared-db')
 const wrestlers = require('./routes/api/wrestlers')
 const users     = require('./routes/api/users')
 
-const app       = express()
+const app  = express()
 
+//Connect to DB
 db.connect()
-// DB Config
-// const db = process.env.MONGO_CLIENT
 
-// mongoose.connect(process.env.MONGO_CLIENT, { useNewUrlParser: true })
-//   .then(() => console.log('MongoDB Connected...'))
-//   .catch(err => console.log(err))
+// Setup webpack Dev Server
+const webpackConfig = require('../../webpack.dev.js')
+const webpackCompiler = webpack(webpackConfig)
+const webpackDevMiddleware = require('webpack-dev-middleware')(webpackCompiler, webpackConfig.devServer)
+const webpackHotMiddleware = require('webpack-hot-middleware')(webpackCompiler)
 
-// let db = mongoose.connection
-
-// db.on('error', console.error.bind(console, 'connection error:'))
-// db.once('open', () => { console.log("MONGOOSE: Once Open")})
+app.use(webpackDevMiddleware)
+app.use(webpackHotMiddleware)
+// app.use(require("webpack-dev-middleware")(webpackCompiler, {
+//   noInfo: true, publicPath: webpackConfig.output.path
+// }))
+// app.use(require("webpack-hot-middleware")(webpackCompiler))
 
 
 // Middleware
@@ -35,7 +45,7 @@ app.use('/api/users', users)
 app.use(express.static(path.resolve(__dirname, '../../dist/')))
 
 // Handle SPA
-app.get(/.*/, (req, res) => res.sendFile(path.resolve(__dirname, '../../dist/index.html')))
+app.get(/.*/, (req, res) => res.sendFile(path.resolve(__dirname, '../index.html')))
 
 const port = process.env.PORT || 8080
 app.listen(port, () => console.log(`Express App listening on port ${port}!`))

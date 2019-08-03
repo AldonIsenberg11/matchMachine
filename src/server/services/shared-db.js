@@ -15,7 +15,7 @@ module.exports = {
     mongoose.connection.on("open", function() {
       console.log(`MongoDB connected to[${connection.db.databaseName}]`.grey.bgRed)
     })
-    mongoose.connect(process.env.MONGO_CLIENT, { useNewUrlParser : true } )
+    mongoose.connect(process.env.MONGO_CLIENT_WRESTLEDB, { useNewUrlParser : true } )
   }
   //TO DO: Add disconnect for future CLI tasks
 }

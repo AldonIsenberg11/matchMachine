@@ -1,4 +1,4 @@
-const bcrypt  = require('bcrypt')
+// const bcrypt  = require('bcrypt')
 const express = require('express')
 const mongodb = require('mongodb')
 const Joi     = require('joi')
@@ -66,7 +66,7 @@ function validateUser(user) {
 
 async function loadUserCollection() {
   console.log(`LOADING users`)
-  const client = await mongodb.MongoClient.connect(encodeURI(process.env.MONGO_CLIENT), {
+  const client = await mongodb.MongoClient.connect(encodeURI(process.env.MONGO_CLIENT_WRESTLEDB), {
     useNewUrlParser: true
   })
   return client.db('wrestledb').collection('users')
