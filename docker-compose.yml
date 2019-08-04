@@ -1,18 +1,18 @@
 version: "3"
 services:
-  dockermongovue:
-    container_name: dockermongovue
+  wrestledb:
+    container_name: wrestledb
     restart: always
-    build: .
+    build:
+      context: ./
     ports:
       - "8080:8080"
-  #   links:
-  #     - mongovue
-  # mongovue:
-  #   image: mongo:4.0
-  #   container_name: mongovue
-  #   ports:
-  #     - 27018:27017
-  #   volumes:
-  #     - ./data/mongo:/data/db
-    # command: mongod --bind_ip=0.0.0.0
+    volumes:
+      - ./src:/app/src
+      - ./dist:/app/dist
+      - ./public:/app/public
+      - ./package.json:/app/package.json
+      - ./package-lock.json:/app/package-lock.json
+    environment:
+      MONGO_CLIENT_WRESTLEDB: "${MONGO_CLIENT_WRESTLEDB}"
+

@@ -1,5 +1,6 @@
 const merge = require('webpack-merge');
 const config = require('./webpack.config.js');
+const webpack = require('webpack')
 
 module.exports = merge(config, {
   mode: 'development',
@@ -11,6 +12,14 @@ module.exports = merge(config, {
     overlay: true,
     stats: {
       color: true
+    },
+    port: 8080,
+    host: '0.0.0.0',
+    proxy: {
+      "/api": "http://localhost:8081"
     }
-  }
+  },
+  plugins: [
+    new webpack.HotModuleReplacementPlugin()
+  ]
 });
