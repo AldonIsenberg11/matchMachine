@@ -5,6 +5,6 @@ COPY package.json ./
 RUN npm install --loglevel warn --ignore-scripts
 COPY . ./
 EXPOSE 8080
-CMD [ "npm", "run", "dev2" ]
+CMD [ "npm", "run", "dev" ]
 
 # Reference: https://medium.com/statuscode/dockerising-a-node-js-and-mongodb-app-d22047e2806f

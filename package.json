@@ -4,13 +4,14 @@
   "description": "Wrestling Software",
   "private": true,
   "engines": {
-    "node": "~10.10.0"
+    "node": "~10.15.0"
   },
   "scripts": {
-    "start": "node src/server/index.js",
+    "start": "npm run build && node src/server/index.js",
     "build": "webpack --mode=production --config=webpack.prod.js",
-    "dev": "webpack-dev-server --config=webpack.dev.js",
-    "dev2": "nodemon src/server/index.js"
+    "dev": "npm run client & npm run server",
+    "client": "webpack-dev-server --config=webpack.dev.js",
+    "server": "nodemon src/server/index.js"
   },
   "author": "Aldon Isenberg",
   "license": "ISC",
@@ -23,9 +24,6 @@
     "lodash": "^4.17.11",
     "mongodb": "^3.1.13",
     "mongoose": "^5.4.16",
-    "passport": "^0.4.0",
-    "passport-local": "^1.0.0",
-    "request": "~2.88.0",
     "vue-router": "^3.0.2",
     "vuex": "^3.1.0"
   },

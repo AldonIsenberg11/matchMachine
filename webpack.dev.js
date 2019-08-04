@@ -4,7 +4,6 @@ const webpack = require('webpack')
 
 module.exports = merge(config, {
   mode: 'development',
-  entry: 'webpack-hot-middleware/client',
   devtool: 'inline-source-map',
   devServer: {
     contentBase: 'dist',
@@ -15,7 +14,10 @@ module.exports = merge(config, {
       color: true
     },
     port: 8080,
-    host: '0.0.0.0'
+    host: '0.0.0.0',
+    proxy: {
+      "/api": "http://localhost:8081"
+    }
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin()

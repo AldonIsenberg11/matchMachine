@@ -7,15 +7,12 @@ const router = express.Router()
 
 // Get users
 router.get('/', async (req, res) => {
-  console.log(`\n\nGetting users:\n${JSON.stringify(req.body, null, 2)}\n\n`)
-
   const users = await loadUserCollection()
   res.send(await users.find({}).toArray())
 })
 
 // Add user
 router.post('/', async (req, res) => {
-  console.log("Posting user:\n\nreq.body: ", JSON.stringify(req.body, null, 2))
 
   // Hash Password
 
@@ -35,8 +32,6 @@ router.post('/', async (req, res) => {
 })
 
 
-
-
 // Update user
 
 
@@ -47,33 +42,21 @@ router.delete('/:id', async (req, res) => {
   res.status(200).send("Successfully deleted user")
 })
 
-
-
-
 // Functions
-
 function validateUser(user) {
   const schema = {
     name: Joi.string().min(3).required(),
     email: Joi.string().min(3).required(),
     password: Joi.string().min(4).required()
   }
-  console.log("Joi Validation: ", Joi.validate(user, schema))
   return Joi.validate(user, schema)
 }
 
-
-
 async function loadUserCollection() {
-  console.log(`LOADING users`)
   const client = await mongodb.MongoClient.connect(encodeURI(process.env.MONGO_CLIENT_WRESTLEDB), {
     useNewUrlParser: true
   })
   return client.db('wrestledb').collection('users')
 }
-
-
-
-
 
 module.exports = router
