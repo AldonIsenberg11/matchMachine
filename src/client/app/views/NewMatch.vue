@@ -2,31 +2,32 @@
   <div class="newMatch">
     <h1>Bout #549  |  Edit (button)</h1>
     <div class="competitors">
-      <tr>
-        <td>
-          Blue Wrestler Bio
-        </td>
-      </tr>
-      <tr>
-        <td>
-          Red Wrestler Bio
-        </td>
-      </tr>
+      <div class="green-wrestler">
+        <h2>
+          Green Wrestler
+        </h2>
+        <select class="green-wrestler-selected" v-model="greenSelected">
+          <option disabled value="">Please select one</option>
+          <option v-for="wrestler in wrestlers">
+            {{ wrestler.name }}
+          </option>
+        </select>
+      </div>
+      <div class="red-wrestler">
+        <h2>
+          Red Wrestler
+        </h2>
+        <select class="red-wrestler-selected" v-model="redSelected">
+          <option disabled value="">Please select one</option>
+          <option v-for="wrestler in wrestlers">
+            {{ wrestler.name }}
+          </option>
+        </select>
+      </div>
     </div>
     <router-link :to="{ name: 'matchUnderway' }">Start</router-link>
     <hr>
     <p class="error" v-if="error">{{ error }}</p>
-    <div class="wrestlers-container">
-      <div class="wrestler"
-        v-for="(wrestler, index) in wrestlers"
-        v-bind:item="wrestler"
-        v-bind:index="index"
-        v-bind:key="wrestler._id"
-      >
-        {{ `${wrestler.createdAt.getDate()}/${wrestler.createdAt.getMonth()}/${wrestler.createdAt.getFullYear()}` }}
-        <p class="text">{{ wrestler.name }}</p>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -66,6 +67,22 @@ export default {
   }
 
   div.wrestler {
+    position: reliative;
+    border: 1px solid #5bd658;
+    background-color: #bcffb8;
+    padding: 10px 10px 30px 10px;
+    margin-bottom: 15px;
+  }
+
+  div.red-wrestler {
+    position: reliative;
+    border: 1px solid #e60000;
+    background-color: #ff7470;
+    padding: 10px 10px 30px 10px;
+    margin-bottom: 15px;
+  }
+
+  div.green-wrestler {
     position: reliative;
     border: 1px solid #5bd658;
     background-color: #bcffb8;
