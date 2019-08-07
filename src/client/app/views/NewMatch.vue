@@ -26,6 +26,7 @@
       </div>
     </div>
     <router-link :to="{ name: 'matchUnderway' }">Start</router-link>
+    <button @click="createNewMatch()">test</button>
     <hr>
     <p class="error" v-if="error">{{ error }}</p>
   </div>
@@ -36,6 +37,11 @@ import WrestlerService from '../../services/WrestlerService'
 
 export default {
   name: 'WrestlerComponent',
+  methods: {
+    createNewMatch: function () {
+      console.log('This:', this.$attrs)
+    },
+  },
   data() {
     return {
       wrestlers: [],

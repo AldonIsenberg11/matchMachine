@@ -1,7 +1,7 @@
+Next I want to create a new match with the wrestlers loaded
+    -> then take to match/<matchId>
 
-Next create Vuex store to share between 2 components.
-
-Then Re-evaluate game plan.
+Do I want to use coffee-script? --> https://github.com/quasarframework/quasar/issues/97
 
 
 +_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_
