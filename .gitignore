@@ -17,6 +17,7 @@ node_modules
 npm-debug.log
 .DS_Store
 *_mapsrc
+data
 private
 cookie
 *.sh
