@@ -5,7 +5,6 @@ let Schema = mongoose.Schema
 let wrestlerSchema = new Schema ({
   usawId           : String,
   email            : {type: String, default: ""},
-
   name           : {type: String, required: true},
   createdAt      : Date,
   // firstName        : {type: String, required: true},

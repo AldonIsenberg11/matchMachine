@@ -13,6 +13,13 @@ router.get('/', async (req, res) => {
   res.send(await Wrestlers.find())
 })
 
+// Get match
+router.get('/:id', async (req, res) => {
+  wrestler = await Wrestlers.findById(req.params.id)
+  console.log("Wrestler found from Database: ", JSON.stringify(wrestler, null, 2))
+  res.status(200).send(wrestler)
+})
+
 // Add matches
 router.post('/', async (req, res) => {
   const { error } = validateWrestler(req.body)

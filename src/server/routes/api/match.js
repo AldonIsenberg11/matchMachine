@@ -8,9 +8,16 @@ const router = express.Router()
 const Match = require('../../models/matchSchema')
 
 
-// Get matches
-router.get('/', async (req, res) => {
-  res.send(await Match.find())
+// // Get matches
+// router.get('/', async (req, res) => {
+//   res.send(await Match.find())
+// })
+
+// Get match
+router.get('/:id', async (req, res) => {
+  match = await Match.findById(req.params.id)
+  console.log("Match found from Database: ", JSON.stringify(match, null, 2))
+  res.status(200).send(match)
 })
 
 // Add matches
@@ -25,12 +32,17 @@ router.post('/', async (req, res) => {
     createdAt: new Date()
   })
 
+  console.log("New Match", JSON.stringify(match, null, 2), "\n\n\n")
+
   match.save((err) => {
-    if (err) return err
-    console.log(`successfully Created a new Match.`)
+    if (err) {
+      res.status(500).send(err)
+    } else {
+      console.log(`successfully Created a new Match.`)
+    }
   })
 
-  res.status(201).send(`Successfully added new match: ${match._id}`)
+  return res.status(201).send(match._id)
 })
 
 

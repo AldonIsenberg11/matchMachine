@@ -39,19 +39,22 @@ export default {
   name: 'WrestlerComponent',
   methods: {
     async createNewMatch () {
+      console.log("createNewMatch:\n", this)
       try {
         await MatchService.addNewMatch(this.greenSelected, this.redSelected)
+          .then((matchId) => {
+            console.log("New Match Data!!!!!!", matchId)
+            this.$router.push(`/matchUnderway/${matchId}`)
+          })
       } catch(err) {
         return this.error = err.message
       }
-      this.$router.push('/matchUnderway')
     }
   },
   data() {
     return {
       wrestlers: [],
       error: '',
-      text: '',
       greenSelected: {
         name: '',
         _id: ''
@@ -65,6 +68,7 @@ export default {
   async created() {
     try {
       this.wrestlers = await WrestlerService.getWrestlers()
+      console.log("Wrestlers: ", this.wrestlers)
     } catch(err) {
       this.error = err.message
     }
