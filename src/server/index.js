@@ -4,6 +4,7 @@ const path      = require('path')
 const db        = require('./services/shared-db')
 const wrestlers = require('./routes/api/wrestlers')
 const users     = require('./routes/api/users')
+const match     = require('./routes/api/match')
 
 const app  = express()
 
@@ -17,6 +18,7 @@ app.use(cors())
 // Routes
 app.use('/api/wrestlers', wrestlers)
 app.use('/api/users', users)
+app.use('/api/match', match)
 
 // Static folder
 app.use(express.static(path.resolve(__dirname, '../../dist/')))

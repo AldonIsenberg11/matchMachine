@@ -1,28 +1,21 @@
-const mongoose = ('mongoose')
-const Schema   = mongoose.Schema
+const mongoose = require('mongoose')
 
-// Internal dependencies
-// ------------------------------------------------------------------------
+let Schema = mongoose.Schema
 
-matchAction = require('./matchAction').Schema
-
-// Schema
-// ------------------------------------------------------------------------
-
-let matchEventSchema = new Schema({
-  _id: Schema.Types.ObjectId,
+let matchSchema = new Schema({
   eventId: Schema.Types.ObjectId,
   boutNo: Number,
   startTime: Date,
   referee: Object,
-  redWrestler: Object,
-  blueWrestler: Object,
-  actions: [matchAction],
+  wrestler1: String,
+  wrestler2: String,
+  // actions: [matchAction],
   matchStatus: String, // started, live, paused, complete
   winner: Object,
   victoryType: String, //decision, major decision, pin, techfall, forfeit, disqualification.
 })
 
-const MatchEvent = mongoose.model('MatchEvent', matchEventSchema)
+const Match = mongoose.model('Match', matchSchema)
 
-module.exports = MatchEvent
+module.exports = Match
+

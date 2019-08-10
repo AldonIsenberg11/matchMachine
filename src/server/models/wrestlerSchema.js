@@ -1,11 +1,10 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
-let Schema = mongoose.Schema;
+let Schema = mongoose.Schema
 
 let wrestlerSchema = new Schema ({
   usawId           : String,
   email            : {type: String, default: ""},
-
   name           : {type: String, required: true},
   createdAt      : Date,
   // firstName        : {type: String, required: true},
@@ -21,6 +20,6 @@ let wrestlerSchema = new Schema ({
   guardians        : [String]
 });
 
-let Wrestler = mongoose.model('Wrestler', wrestlerSchema);
+let Wrestler = mongoose.model('Wrestler', wrestlerSchema)
 
-module.exports = Wrestler;
+module.exports = Wrestler

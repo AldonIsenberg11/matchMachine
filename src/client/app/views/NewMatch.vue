@@ -6,9 +6,9 @@
         <h2>
           Green Wrestler
         </h2>
-        <select class="green-wrestler-selected" v-model="greenSelected">
+        <select v-model="greenSelected">
           <option disabled value="">Please select one</option>
-          <option v-for="wrestler in wrestlers">
+          <option v-for="wrestler in wrestlers" v-bind:value="wrestler._id">
             {{ wrestler.name }}
           </option>
         </select>
@@ -17,41 +17,58 @@
         <h2>
           Red Wrestler
         </h2>
-        <select class="red-wrestler-selected" v-model="redSelected">
+        <select v-model="redSelected">
           <option disabled value="">Please select one</option>
-          <option v-for="wrestler in wrestlers">
+          <option v-for="wrestler in wrestlers" v-bind:value="wrestler._id">
             {{ wrestler.name }}
           </option>
         </select>
       </div>
     </div>
-    <router-link :to="{ name: 'matchUnderway' }">Start</router-link>
-    <button @click="createNewMatch()">test</button>
+    <button @click="createNewMatch()">Start</button>
     <hr>
     <p class="error" v-if="error">{{ error }}</p>
   </div>
 </template>
 
 <script>
+import MatchService from '../../services/MatchService'
 import WrestlerService from '../../services/WrestlerService'
 
 export default {
   name: 'WrestlerComponent',
   methods: {
-    createNewMatch: function () {
-      console.log('This:', this.$attrs)
-    },
+    async createNewMatch () {
+      console.log("createNewMatch:\n", this)
+      try {
+        await MatchService.addNewMatch(this.greenSelected, this.redSelected)
+          .then((matchId) => {
+            console.log("New Match Data!!!!!!", matchId)
+            this.$router.push(`/matchUnderway/${matchId}`)
+          })
+      } catch(err) {
+        return this.error = err.message
+      }
+    }
   },
   data() {
     return {
       wrestlers: [],
       error: '',
-      text: ''
+      greenSelected: {
+        name: '',
+        _id: ''
+      },
+      redSelected: {
+        name: '',
+        _id: ''
+      }
     }
   },
   async created() {
     try {
       this.wrestlers = await WrestlerService.getWrestlers()
+      console.log("Wrestlers: ", this.wrestlers)
     } catch(err) {
       this.error = err.message
     }

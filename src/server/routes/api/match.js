@@ -5,36 +5,44 @@ const Joi     = require('joi')
 const router = express.Router()
 
 // Mongoose Wrestler model
-const Wrestlers = require('../../models/wrestlerSchema')
+const Match = require('../../models/matchSchema')
 
 
-// Get matches
-router.get('/', async (req, res) => {
-  res.send(await Wrestlers.find())
-})
+// // Get matches
+// router.get('/', async (req, res) => {
+//   res.send(await Match.find())
+// })
 
 // Get match
 router.get('/:id', async (req, res) => {
-  wrestler = await Wrestlers.findById(req.params.id)
-  console.log("Wrestler found from Database: ", JSON.stringify(wrestler, null, 2))
-  res.status(200).send(wrestler)
+  match = await Match.findById(req.params.id)
+  console.log("Match found from Database: ", JSON.stringify(match, null, 2))
+  res.status(200).send(match)
 })
 
 // Add matches
 router.post('/', async (req, res) => {
-  const { error } = validateWrestler(req.body)
-  if (error) return res.status(400).send(error.details[0].message)
+//   const { error } = validateWrestler(req.body)
+//   if (error) return res.status(400).send(error.details[0].message)
+  console.log(`\n\n\nRequest:${JSON.stringify(req.body, null, 2)}\n\n\n`)
 
-  wrestler = new Wrestlers({
-    name: req.body.name,
+  match = new Match({
+    wrestler1: req.body.wrestler1,
+    wrestler2: req.body.wrestler2,
     createdAt: new Date()
   })
 
-  wrestler.save((err) => {
-    if (err) return err
+  console.log("New Match", JSON.stringify(match, null, 2), "\n\n\n")
+
+  match.save((err) => {
+    if (err) {
+      res.status(500).send(err)
+    } else {
+      console.log(`successfully Created a new Match.`)
+    }
   })
 
-  res.status(201).send(`Successfully added wrestler: ${req.body.name}`)
+  return res.status(201).send(match._id)
 })
 
 

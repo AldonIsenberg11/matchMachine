@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Home from './app/views/Home.vue'
 import NewMatch from './app/views/NewMatch.vue'
 import MatchUnderway from './app/views/MatchUnderway.vue'
+import MatchUnderwayId from './app/components/MatchUnderwayId.vue'
 import Wrestlers from './app/views/Wrestlers.vue'
 import Register from './app/views/Register.vue'
 import Login from './app/views/Login.vue'
@@ -35,6 +36,9 @@ export default new Router({
       // // which is lazy-loaded when the route is visited.
       // component: () => import(/* webpackChunkName: "matchUnderway" */ './client/views/MatchUnderway.vue')
       component: MatchUnderway
+    },
+    {
+      path: '/matchUnderway/:id', component: MatchUnderwayId
     },
     {
       path: '/wrestlers',

@@ -20,7 +20,17 @@ class WrestlerService {
       }
     })
   }
-  // Create Wrestlers
+  // Get Wrestler
+  static getWrestler(id) {
+    return axios.get(`${url}${id}`)
+      .then((response) => {
+        console.log("GettingWrestlerResponse", response)
+        return response
+      })
+      .catch((error) => {console.error("Error getting match: ", error)})
+  }
+
+  // Create Wrestler
   static addWrestler(text) {
     return axios.post(url, {
       name: text
