@@ -8,10 +8,17 @@ const router = express.Router()
 const Match = require('../../models/matchSchema')
 
 
-// // Get matches
-// router.get('/', async (req, res) => {
-//   res.send(await Match.find())
-// })
+// Get matches
+router.get('/', async (req, res) => {
+  try {
+    matches = await Match.find()
+    console.log(`\n\n\n${JSON.stringify(matches, null, 2)}\n\n\n`)
+    res.send(matches).status(200)
+  } catch (err) {
+    console.log(`\n\n\nRequest:${JSON.stringify(req.body, null, 2)}\n\n\n`)
+    res.send(err).status(500)
+  }
+})
 
 // Get match
 router.get('/:id', async (req, res) => {
@@ -65,7 +72,7 @@ router.post('/', async (req, res) => {
 // Delete matches
 router.delete('/:id', async (req, res) => {
   // const wrestlers = await loadWrestlerCollection()
-  await Wrestlers.deleteOne({_id: new mongodb.ObjectID(req.params.id)})
+  await Match.deleteOne({_id: new mongodb.ObjectID(req.params.id)})
   console.log('did it did it')
   res.status(200).send("Successfully deleted wrestler")
 })

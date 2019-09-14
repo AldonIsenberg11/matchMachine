@@ -3,9 +3,16 @@ import axios from 'axios'
 const url = 'api/match/'
 
 class MatchService {
-  // Get match
+  // Get single match
   static getMatch(id) {
     return axios.get(`${url}${id}`)
+      .then((response) => {return response})
+      .catch((error) => {console.error("Error getting match: ", error)})
+  }
+
+  // Get all matches
+  static getMatches() {
+    return axios.get(`${url}`)
       .then((response) => {return response})
       .catch((error) => {console.error("Error getting match: ", error)})
   }
@@ -20,6 +27,11 @@ class MatchService {
     }).catch((error) => {
       console.error("Error: ", error)
     })
+  }
+
+  // Delete Match
+  static deleteMatch(id) {
+    return axios.delete(`${url}${id}`)
   }
 }
 
