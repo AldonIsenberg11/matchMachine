@@ -3,8 +3,11 @@
     <h1>List of Matches Currently Underway</h1>
     <hr>
     <div class="allMatchesUnderway">
-      <div v-for="match in allMatchesUnderway" :key="match.id" class="matchesUnderway">
-        <h2>| MatchId: {{match.id}}</h2>
+      <div class="matchesUnderway"
+        v-for="match in allMatchesUnderway"
+        :key="match._id"
+        v-on:dblclick="deleteMatchUnderway(match._id)">
+        <h3>MatchId: {{match._id}}</h3>
         <p> Wrestler1: {{match.wrestler1}}</p>
         <p> Wrestler2: {{match.wrestler2}}</p>
       </div>
@@ -14,11 +17,18 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'MatchesUnderway',
-  computed: mapGetters(['allMatchesUnderway'])
+  methods: {
+    ...mapActions(['fetchMatchesUnderway', 'deleteMatchUnderway']),
+    // ...mapActions(['deleteMatchUnderway'])
+  },
+  computed: mapGetters(['allMatchesUnderway']),
+  created() {
+    this.fetchMatchesUnderway()
+  }
 }
 </script>
 

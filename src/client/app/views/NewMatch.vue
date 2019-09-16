@@ -32,25 +32,22 @@
 </template>
 
 <script>
-import MatchService from '../../services/MatchService'
+import { mapActions }  from 'vuex'
+import MatchService    from '../../services/MatchService'
 import WrestlerService from '../../services/WrestlerService'
 
 export default {
   name: 'WrestlerComponent',
   methods: {
-    async createNewMatch () {
-      console.log("createNewMatch:\n", this)
-      try {
-        await MatchService.addNewMatch(this.greenSelected, this.redSelected)
-          .then((matchId) => {
-            console.log("New Match Data!!!!!!", matchId)
-            this.$router.push(`/matchUnderway/${matchId}`)
-          })
-      } catch(err) {
-        return this.error = err.message
-      }
-    }
-  },
+    ...mapActions(['addMatchUnderway']),
+    createNewMatch () {
+      let newMatch = {
+        wrestler1: this.greenSelected,
+        wrestler2: this.redSelected }
+      this.addMatchUnderway(newMatch)
+        .then((matchId) => { this.$router.push(`/matchUnderway/${matchId}`) })
+        .catch((err) => {console.error(`Error adding new match::\n${err.message}`)})}},
+
   data() {
     return {
       wrestlers: [],
