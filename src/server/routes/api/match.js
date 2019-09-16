@@ -12,10 +12,8 @@ const Match = require('../../models/matchSchema')
 router.get('/', async (req, res) => {
   try {
     matches = await Match.find()
-    console.log(`\n\n\n${JSON.stringify(matches, null, 2)}\n\n\n`)
     res.send(matches).status(200)
   } catch (err) {
-    console.log(`\n\n\nRequest:${JSON.stringify(req.body, null, 2)}\n\n\n`)
     res.send(err).status(500)
   }
 })
@@ -23,7 +21,6 @@ router.get('/', async (req, res) => {
 // Get match
 router.get('/:id', async (req, res) => {
   match = await Match.findById(req.params.id)
-  console.log("Match found from Database: ", JSON.stringify(match, null, 2))
   res.status(200).send(match)
 })
 
@@ -31,11 +28,11 @@ router.get('/:id', async (req, res) => {
 router.post('/', async (req, res) => {
 //   const { error } = validateWrestler(req.body)
 //   if (error) return res.status(400).send(error.details[0].message)
-  console.log(`\n\n\nRequest:${JSON.stringify(req.body, null, 2)}\n\n\n`)
-
+  console.log(`\n\nNEW MATCH BODY: ${JSON.stringify(req.body, null, 2)}\n\n`)
   match = new Match({
-    wrestler1: req.body.wrestler1,
-    wrestler2: req.body.wrestler2,
+    wrestler1: req.body.match.wrestler1,
+    wrestler2: req.body.match.wrestler2,
+    completed: req.body.completed,
     createdAt: new Date()
   })
 
@@ -72,9 +69,11 @@ router.post('/', async (req, res) => {
 // Delete matches
 router.delete('/:id', async (req, res) => {
   // const wrestlers = await loadWrestlerCollection()
-  await Match.deleteOne({_id: new mongodb.ObjectID(req.params.id)})
-  console.log('did it did it')
-  res.status(200).send("Successfully deleted wrestler")
+  matchDeleted = await Match.deleteOne({_id: new mongodb.ObjectID(req.params.id)})
+  console.log('did it did it', matchDeleted)
+  if (matchDeleted.deletedCount > 0 ) { res.status(200).send("Successfully deleted wrestler") }
+  else if (matchDeleted.ok > 0 ) { res.status(404).send("Wrestler not found in database for this") }
+  else {res.status(500).send("Something Broke")}
 })
 
 

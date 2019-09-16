@@ -93,7 +93,8 @@ export default {
       blueControl: false,
       redControl: false,
       pause: false,
-      match: {}
+      match: {},
+      matchEvents: []
     }
   },
   async created() {
