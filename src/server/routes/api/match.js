@@ -12,10 +12,8 @@ const Match = require('../../models/matchSchema')
 router.get('/', async (req, res) => {
   try {
     matches = await Match.find()
-    console.log(`\n\n\n${JSON.stringify(matches, null, 2)}\n\n\n`)
     res.send(matches).status(200)
   } catch (err) {
-    console.log(`\n\n\nRequest:${JSON.stringify(req.body, null, 2)}\n\n\n`)
     res.send(err).status(500)
   }
 })
@@ -23,7 +21,6 @@ router.get('/', async (req, res) => {
 // Get match
 router.get('/:id', async (req, res) => {
   match = await Match.findById(req.params.id)
-  console.log("Match found from Database: ", JSON.stringify(match, null, 2))
   res.status(200).send(match)
 })
 
@@ -31,7 +28,6 @@ router.get('/:id', async (req, res) => {
 router.post('/', async (req, res) => {
 //   const { error } = validateWrestler(req.body)
 //   if (error) return res.status(400).send(error.details[0].message)
-  console.log(`\n\n\nRequest:${JSON.stringify(req.body, null, 2)}\n\n\n`)
 
   match = new Match({
     wrestler1: req.body.wrestler1,

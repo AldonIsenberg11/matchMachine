@@ -13,9 +13,7 @@ const actions = {
     commit('setWrestlers', response.data)
   },
   async addWrestler({ commit }, wrestler) {
-    console.log("Wrestler Here: ", JSON.stringify(wrestler, null, 2))
     const response = await axios.post(url, wrestler)
-    console.log(`Response.DataFORADDINGWRESTLER${response.data}`)
     commit('newWrestlerAdded', response.data)
   }
 }
