@@ -1,7 +1,10 @@
 import axios from 'axios'
 const url = 'api/wrestlers/'
 
-const state = { wrestlers: [] }
+const state = {
+  wrestlers: [],
+
+}
 
 const getters = {
   allWrestlers: (state) => state.wrestlers

@@ -2,9 +2,9 @@
   <div class="container">
     <h1>List of Matches Currently Underway</h1>
     <hr>
-    <div class="allMatchesUnderway">
-      <div class="matchesUnderway"
-        v-for="match in allMatchesUnderway"
+    <div class="allMatches">
+      <div class="matches"
+        v-for="match in allMatches"
         :key="match._id"
         v-on:dblclick="deleteMatchUnderway(match._id)">
         <h3>MatchId: {{match._id}}</h3>
@@ -22,23 +22,23 @@ import { mapGetters, mapActions } from 'vuex'
 export default {
   name: 'MatchesUnderway',
   methods: {
-    ...mapActions(['fetchMatchesUnderway', 'deleteMatchUnderway']),
+    ...mapActions(['fetchMatches', 'deleteMatch']),
     // ...mapActions(['deleteMatchUnderway'])
   },
-  computed: mapGetters(['allMatchesUnderway']),
+  computed: mapGetters(['allMatches']),
   created() {
-    this.fetchMatchesUnderway()
+    this.fetchMatches()
   }
 }
 </script>
 
 <style>
-.allMatchesUnderway {
+.allMatches {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 1rem;
 }
-.matchesUnderway {
+.matches {
   border: 1px solid #ccc;
   background: #41b883;
   padding: 1rem;

@@ -4,6 +4,7 @@ let Schema = mongoose.Schema
 
 let matchSchema = new Schema({
   eventId: Schema.Types.ObjectId,
+  completed: Boolean,
   boutNo: Number,
   startTime: Date,
   referee: Object,

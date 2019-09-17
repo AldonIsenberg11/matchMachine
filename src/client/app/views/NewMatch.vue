@@ -39,12 +39,12 @@ import WrestlerService from '../../services/WrestlerService'
 export default {
   name: 'WrestlerComponent',
   methods: {
-    ...mapActions(['addMatchUnderway']),
+    ...mapActions(['createMatch']),
     createNewMatch () {
       let newMatch = {
         wrestler1: this.greenSelected,
         wrestler2: this.redSelected }
-      this.addMatchUnderway(newMatch)
+      this.createMatch(newMatch)
         .then((matchId) => { this.$router.push(`/matchUnderway/${matchId}`) })
         .catch((err) => {console.error(`Error adding new match::\n${err.message}`)})}},
 
