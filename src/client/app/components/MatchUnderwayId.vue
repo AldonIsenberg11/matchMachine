@@ -21,7 +21,20 @@
 
     <div class="score">
       <h2>Here is where the score should be</h2>
-      <p>BLUE: {{matchUnderway.wrestler1Score}}   |    RED: {{matchUnderway.wrestler2Score}}</p>
+      <p>RED: {{matchUnderway.wrestler1Score}}   |    Blue: {{matchUnderway.wrestler2Score}}</p>
+      <button @click="addMatchEvent(takedown('red'))"> Blue Takedown</button>
+    </div>
+    <br>
+    <br>
+    <div class="events">
+      <div class="event" v-for="(event, index) in matchUnderway.matchEvents"
+        v-bind:item="event"
+        v-bind:index="index"
+        v-bind:key="event._id || index">
+
+        {{ `${JSON.stringify(event, null, 2)}` }}
+
+      </div>
     </div>
   </div>
 </template>
@@ -33,7 +46,19 @@ export default {
   computed: mapGetters(['matchUnderway']),
   created() {this.getMatchUnderway(this.$route.params.id)},
   methods: {
-    ...mapActions(['getMatchUnderway'])
+    ...mapActions(['getMatchUnderway', 'addMatchEvent']),
+    takedown: (color) => {
+      console.log("this in here", color)
+      if (color === 'red') {
+        event = {
+          matchId: "5d8246615dbb1f04f726f978",
+          action: "takedown",
+          matchTime: "0:11:45"
+        }
+        console.log("takedownEvent: ", event)
+        return event
+      }
+    }
 }}
 </script>
 

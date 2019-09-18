@@ -1,4 +1,4 @@
-const mongoose = ('mongoose')
+const mongoose = require('mongoose')
 const Schema   = mongoose.Schema
 
 let matchActionSchema = new Schema({
@@ -10,7 +10,8 @@ let matchActionSchema = new Schema({
   blueScore: Number,              // Current score
   matchClock: String,             // Current time
   periodEnd: Boolean,             // Did this action cause the period to end?
-  matchEnd: Boolean               // Did this action cause the match to end.
+  matchEnd: Boolean,              // Did this action cause the match to end.
+  createdAt: String
 })
 
 const MatchAction = mongoose.model('MatchAction', matchActionSchema)

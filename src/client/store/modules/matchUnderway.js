@@ -1,6 +1,7 @@
 import axios from 'axios';
 const matchUrl = 'api/match/'
 const wrestlerUrl = 'api/wrestlers/'
+const matchEventUrl = 'api/match/matchEvent/'
 
 const state = {
   id             : 'test123', // matchId
@@ -33,16 +34,20 @@ const actions = {
     const response  = await axios.get(`${matchUrl}${id}`)
     const wrestler1 = await axios.get(`${wrestlerUrl}${response.data.wrestler1}`)
     const wrestler2 = await axios.get(`${wrestlerUrl}${response.data.wrestler2}`)
-
     const match = {
       id        : id,
       wrestler1 : wrestler1.data,
       wrestler2 : wrestler2.data,
       status    : response.data.status,
       completed : response.data.completed }
-
     commit('setMatchUnderway', match)
-    return match } }
+    return match },
+
+  async addMatchEvent({commit}, event) {
+    console.log("\n\naddingMatchEvent", event)
+    const response = await axios.put(`${matchEventUrl}${event.matchId}`, event)
+    console.log("responst0e: ", response)
+    commit('pushMatchEvent', response.data) } }
 
 const mutations = {
   newMatch : (state, match) => {
@@ -50,16 +55,20 @@ const mutations = {
     state.id = id,
     state.wrestler1 = wrestler1,
     state.wrestler2 = wrestler2
-  },
+},
 
   setMatchUnderway: (state, match) => {
-    console.log("setting match underway! ", match)
     const {id, wrestler1, wrestler2, completed} = match
     state.id = id,
     state.wrestler1 = wrestler1,
     state.wrestler2 = wrestler2,
     state.completed = completed
-  }}
+  },
+
+  pushMatchEvent: (state, event) => {
+    console.log(`pushMatchEvent: ${event}`)
+    state.matchEvents.push(event)
+  } }
 
 export default {
   state,

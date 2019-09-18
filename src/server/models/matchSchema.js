@@ -11,6 +11,7 @@ let matchSchema = new Schema({
   wrestler1: String,
   wrestler2: String,
   // actions: [matchAction],
+  events: {type: [Schema.Types.Mixed], default: []},
   matchStatus: String, // started, live, paused, complete
   winner: Object,
   victoryType: String, //decision, major decision, pin, techfall, forfeit, disqualification.
