@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 // const colors = require('colors') * need to figure out a way to handle keeping this a dev-dependency by dev vs production console logging
 
 let handleFailure = function() {
-  console.log("There was an error".bold.red.bgWhite)
+  console.log("There was an error")//.bold.red.bgWhite)
   return process.exit(1)
 }
 
