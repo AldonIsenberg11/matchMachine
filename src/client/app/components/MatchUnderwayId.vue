@@ -21,8 +21,27 @@
 
     <div class="score">
       <h2>Here is where the score should be</h2>
-      <p>RED: {{matchUnderway.wrestler1Score}}   |    Blue: {{matchUnderway.wrestler2Score}}</p>
-      <button @click="addMatchEvent(takedown('red'))"> Blue Takedown</button>
+      <p>RED: {{redScore}}   |    BLUE: {{blueScore}}</p>
+      <div class="matchActions">
+        <div class="redActions">
+          <button class="redActionButtons" @click="redTakedown()"> Red Takedown</button>
+          <button class="redActionButtons" @click="redEscape()"> Red Escape</button>
+          <button class="redActionButtons" @click="redReversal()"> Red Reversal</button>
+          <button class="redActionButtons" @click="redNearfall(2)"> Red Nearfall2</button>
+          <button class="redActionButtons" @click="redNearfall(3)"> Red Nearfall3</button>
+          <button class="redActionButtons" @click="redNearfall(4)"> Red Nearfall4</button>
+          <button class="redActionButtons" @click="console.log('PIN!')"> Red Pin</button>
+        </div>
+        <div class="blueActions">
+          <button class="blueActionButtons" @click="blueTakedown()"> Blue Takedown</button>
+          <button class="blueActionButtons" @click="blueEscape()"> Blue Escape</button>
+          <button class="blueActionButtons" @click="blueReversal()"> Blue Reversal</button>
+          <button class="blueActionButtons" @click="blueNearfall(2)"> Blue Nearfall2</button>
+          <button class="blueActionButtons" @click="blueNearfall(3)"> Blue Nearfall3</button>
+          <button class="blueActionButtons" @click="blueNearfall(4)"> Blue Nearfall4</button>
+          <button class="blueActionButtons" @click="console.log('PIN!')"> Blue Pin</button>
+        </div>
+      </div>
     </div>
     <br>
     <br>
@@ -43,24 +62,61 @@
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
-  computed: mapGetters(['matchUnderway']),
   created() {this.getMatchUnderway(this.$route.params.id)},
-  methods: {
-    ...mapActions(['getMatchUnderway', 'addMatchEvent']),
-    takedown: (color) => {
-      console.log("this in here", color)
-      if (color === 'red') {
-        event = {
-          matchId: "5d8246615dbb1f04f726f978",
-          action: "takedown",
-          matchTime: "0:11:45"
-        }
-        console.log("takedownEvent: ", event)
-        return event
-      }
-    }
-}}
+  computed: mapGetters(['matchUnderway','redScore','blueScore']),
+  methods: { ...mapActions([
+    'getMatchUnderway',
+    'redTakedown',
+    'redReversal',
+    'redEscape',
+    'redNearfall',
+    'blueTakedown',
+    'blueReversal',
+    'blueEscape',
+    'blueNearfall' ])}}
 </script>
 
 <style lang="css">
+.matchActions {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 1rem;
+}
+.redActions {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  grid-gap: 1rem;
+  border: 20px solid #ccc;
+  background: #a00f0f;
+  padding: 1rem;
+  border-radius: 5px;
+  text-align: center;
+  position: relative;
+}
+.blueActions {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  grid-gap: 1rem;
+  border: 20px solid #ccc;
+  background: #1330ad;
+  padding: 1rem;
+  border-radius: 5px;
+  text-align: center;
+  position: relative;
+}
+.redActionButtons {
+  background: #ddc4c4;
+  cursor: pointer;
+  padding: 1rem;
+  font-weight: 900;
+  font-size: 20px;
+}
+.blueActionButtons {
+  background: #96a4d3;
+  cursor: pointer;
+  padding: 1rem;
+  font-weight: bolder;
+  font-weight: 900;
+  font-size: 20px;
+}
 </style>

@@ -37,23 +37,6 @@ router.post('/', async (req, res) => {
   res.status(201).send(`Successfully added wrestler: ${req.body.name}`)
 })
 
-
-// Update matches
-
-// router.put('/:id', (req, res) => {
-//   const wrestler = wrestlers.find(c => c.id === parseInt(req.params.id)) // Look up the wrestler
-//   if (!wrestler) return res.status(404).send('The wrestler with the given ID was not found.') // If not existing, return 404
-
-//   const { error } = validateWrestler(req.body) // Validate
-//   if (error) return res.status(400).send(error.details[0].message) // If invalid, return 400 - Bad Request
-
-//   wrestler.name = req.body.name // Update wrestler
-//   res.send(wrestler) // Return the updated wrestler
-// })
-
-
-
-
 // Delete matches
 router.delete('/:id', async (req, res) => {
   // const wrestlers = await loadWrestlerCollection()

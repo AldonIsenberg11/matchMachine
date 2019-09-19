@@ -12,7 +12,7 @@ router.get('/', async (req, res) => {
     matches = await Match.find()
     res.send(matches).status(200)
   } catch (err) {
-      res.send(err).status(500) }})
+    res.send(err).status(500) }})
 
 // ---------------------- GET SINGLE MATCH -------------------------
 router.get('/:id', async (req, res) => {
@@ -30,29 +30,24 @@ router.post('/', async (req, res) => {
     if (err) {
       res.status(500).send(err)
     } else {
-        console.log(`successfully Created a new Match.`)}})
+      console.log(`successfully Created a new Match.`)}})
   return res.status(201).send(match._id) })
 
 // ---------------------- ADD MATCH EVENT ----------------------------
 router.put('/matchEvent/:id', async (req, res) => {
   const match = await Match.findById(req.params.id)
-  matchEvent = new MatchEvent({
-    matchId   : req.body.matchId,
-    action    : req.body.action,
-    matchTime : req.body.matchTime,
-    createdAt : new Date() })
+  matchEvent = new MatchEvent(req.body)
   match.events.push(matchEvent)
   match.save((err) => {
     if (err) {
       res.status(500).send(err)
     } else {
-        console.log(`successfully added a new Match.`) }})
+      console.log(`successfully added a new Match.`) }})
   return res.status(201).send(matchEvent) })
 
 // ---------------------- DELETE MATCH --------------------------------
 router.delete('/:id', async (req, res) => {
   matchDeleted = await Match.deleteOne({_id: new mongodb.ObjectID(req.params.id)})
-  console.log('did it did it', matchDeleted)
   if (matchDeleted.deletedCount > 0 ) { res.status(200).send("Successfully deleted wrestler") }
   else if (matchDeleted.ok > 0 ) { res.status(404).send("Wrestler not found in database for this") }
   else {res.status(500).send("Something Broke")} })
