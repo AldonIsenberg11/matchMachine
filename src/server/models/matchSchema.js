@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 let Schema = mongoose.Schema
 
 let matchSchema = new Schema({
+  matchRules: Object, // rulebookVersion => style: "folkstyle", matchLength: "", periods: ""
   eventId: Schema.Types.ObjectId,
   completed: Boolean,
   boutNo: Number,
