@@ -118,6 +118,7 @@ const actions = {
 
   //  Functions dispatched to commit mutations
   async startTimer({commit, dispatch}) {
+    console.log("THISSSS", this)
     commit('startMatch')
     const event = {
       matchId   : state.id,

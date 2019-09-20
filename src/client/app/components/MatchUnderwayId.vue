@@ -3,18 +3,7 @@
     <h1 class="title">Match Underway: {{matchUnderway.id}}</h1>
     <div class="matchTimer">
       <h2>Match Timer1: {{currentMatchTime}} </h2>
-      <Timer
-        :timer="formattedTime"
-        :state="timerState"
-        @start="startTimer"
-        @lap="lap"
-        @pause="pause"
-        @clear="clearTimer"
-      />
-
-      <button class="matchTimerButton" @click="matchTimerToggle()" v-show="!matchInProgress"> Start</button>
-      <button class="matchTimerButton" @click="matchTimerToggle()" v-show="matchInProgress"> Stop</button>
-
+      <Timer />
     </div>
     <div class="score">
       <div class="matchActions">
@@ -61,26 +50,13 @@
 <script>
 import Timer from './Timer.vue'
 import { mapGetters, mapActions } from 'vuex'
-
 export default {
   components: {Timer},
   created() {this.getMatchUnderway(this.$route.params.id)},
-  watch: {
-    matchInProgress: function (timerOn, timerOff) {
-      console.log("Timer On: ", timerOn)
-      console.log("Timer Off: ", timerOff)
-    }
-  },
   computed: mapGetters(['matchUnderway', 'matchTime1', 'redScore', 'blueScore', 'matchInProgress']),
   data: function () {
     return {
-      currentMatchTime : Date.now(),
-      timerState: 'stopped',
-      currentTimer: 0,
-      formattedTime: "00:00:00",
-      ticker: 0,
-      laps: [],
-      latestLap: ""
+      currentMatchTime : Date.now()
     }
   },
   methods: { ...mapActions([
@@ -93,45 +69,7 @@ export default {
     'blueTakedown',
     'blueReversal',
     'blueEscape',
-    'blueNearfall' ]),
-    startTimer () {
-      console.log('startTimer!@!@')
-      if (this.timerState !== 'running') {
-        this.tick()
-        this.timerState = 'running'
-      }
-    },
-    lap () {
-      this.laps.push({
-        seconds: this.currentTimer,
-        formattedTime: this.formatTime(this.currentTimer)
-      })
-      this.latestLap = this.formatTime(this.currentTimer)
-      this.currentTimer = 0
-    },
-    pause () {
-      window.clearInterval(this.ticker)
-      this.timerState = 'paused'
-    },
-    clearTimer () {
-      console.log("Stop!!!!", this)
-      window.clearInterval(this.ticker)
-      this.currentTimer = 0
-      this.formattedTime = "00:00:00"
-      this.timerState = 'stopped'
-    },
-    tick () {
-      this.ticker = setInterval(() => {
-        this.currentTimer++
-        this.formattedTime = this.formatTime(this.currentTimer)
-      }, 100)
-    },
-    formatTime (milliseconds) {
-      let measuredTime = new Date(null)
-      measuredTime.setMilliseconds(milliseconds * 100)
-      let MHSTime = measuredTime.toISOString()
-      return MHSTime.substr(14,7)
-    }
+    'blueNearfall' ])
   }
 }
 </script>
@@ -219,15 +157,5 @@ export default {
   display: grid;
   grid-template-columns: repeat(1, 1fr);
   grid-gap: 1rem;
-}
-.matchTimerButton {
-  position: reliative;
-  border: 1px solid #5bd658;
-  background-color: #bcffb8;
-  padding: 10px 10px 30px 10px;
-  margin-bottom: 15px;
-  font-weight: 900;
-  font-size: 20px;
-  padding: 1rem;
 }
 </style>
