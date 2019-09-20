@@ -42,7 +42,7 @@ router.put('/matchEvent/:id', async (req, res) => {
     if (err) {
       res.status(500).send(err)
     } else {
-      console.log(`successfully added a new Match.`) }})
+      console.log(`successfully added a new Match EVENT.`) }})
   return res.status(201).send(matchEvent) })
 
 // ---------------------- DELETE MATCH --------------------------------
