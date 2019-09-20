@@ -1,28 +1,27 @@
 <template>
   <div class="matchUnderway">
-    <h1>Match Underway</h1>
-    <h3>MatchId: {{matchUnderway.id}}</h3>
-    <h5>Wrestler1: {{matchUnderway.wrestler1.name}}</h5>
-    <h5>Wrestler2: {{matchUnderway.wrestler2.name}}</h5>
-    <h5>Match Data: {{matchUnderway}}</h5>
+    <h1 class="title">Match Underway: {{matchUnderway.id}}</h1>
+    <div class="matchTimer">
+      <h2>Match Timer1: {{currentMatchTime}} </h2>
+      <Timer
+        :timer="formattedTime"
+        :state="timerState"
+        @start="startTimer"
+        @lap="lap"
+        @pause="pause"
+        @clear="clearTimer"
+      />
 
+      <button class="matchTimerButton" @click="matchTimerToggle()" v-show="!matchInProgress"> Start</button>
+      <button class="matchTimerButton" @click="matchTimerToggle()" v-show="matchInProgress"> Stop</button>
 
-    <div class="matchStats">
-      <h2>There should be a component here that has a few different tabs:</h2>
-      <ul>
-        <li>Match History (graph)</li>
-        <li>Wrestler's info (both on web, tab per wrestler on mobile)</li>
-        <li>other wrestler (on mobile)</li>
-        <li>Current Bracket</li>
-        <li>Stats</li>
-      </ul>
     </div>
-
-
     <div class="score">
-      <h2>Here is where the score should be</h2>
-      <p>RED: {{redScore}}   |    BLUE: {{blueScore}}</p>
       <div class="matchActions">
+        <h3>Wrestler1: {{matchUnderway.wrestler1.name}}</h3>
+        <h3>Wrestler2: {{matchUnderway.wrestler2.name}}</h3>
+        <div class="redScore">Red Score: {{redScore}}</div>
+        <div class="blueScore">Blue Score: {{blueScore}}</div>
         <div class="redActions">
           <button class="redActionButtons" @click="redTakedown()"> Red Takedown</button>
           <button class="redActionButtons" @click="redEscape()"> Red Escape</button>
@@ -41,6 +40,7 @@
           <button class="blueActionButtons" @click="blueNearfall(4)"> Blue Nearfall4</button>
           <button class="blueActionButtons" @click="console.log('PIN!')"> Blue Pin</button>
         </div>
+
       </div>
     </div>
     <br>
@@ -51,7 +51,7 @@
         v-bind:index="index"
         v-bind:key="event._id || index">
 
-        {{ `${JSON.stringify(event, null, 2)}` }}
+        {{  `${event.action.toUpperCase()} matchTime: ${event.matchTime}` }}
 
       </div>
     </div>
@@ -59,12 +59,32 @@
 </template>
 
 <script>
+import Timer from './Timer.vue'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
+  components: {Timer},
   created() {this.getMatchUnderway(this.$route.params.id)},
-  computed: mapGetters(['matchUnderway','redScore','blueScore']),
+  watch: {
+    matchInProgress: function (timerOn, timerOff) {
+      console.log("Timer On: ", timerOn)
+      console.log("Timer Off: ", timerOff)
+    }
+  },
+  computed: mapGetters(['matchUnderway', 'matchTime1', 'redScore', 'blueScore', 'matchInProgress']),
+  data: function () {
+    return {
+      currentMatchTime : Date.now(),
+      timerState: 'stopped',
+      currentTimer: 0,
+      formattedTime: "00:00:00",
+      ticker: 0,
+      laps: [],
+      latestLap: ""
+    }
+  },
   methods: { ...mapActions([
+    'matchTimerToggle',
     'getMatchUnderway',
     'redTakedown',
     'redReversal',
@@ -73,7 +93,47 @@ export default {
     'blueTakedown',
     'blueReversal',
     'blueEscape',
-    'blueNearfall' ])}}
+    'blueNearfall' ]),
+    startTimer () {
+      console.log('startTimer!@!@')
+      if (this.timerState !== 'running') {
+        this.tick()
+        this.timerState = 'running'
+      }
+    },
+    lap () {
+      this.laps.push({
+        seconds: this.currentTimer,
+        formattedTime: this.formatTime(this.currentTimer)
+      })
+      this.latestLap = this.formatTime(this.currentTimer)
+      this.currentTimer = 0
+    },
+    pause () {
+      window.clearInterval(this.ticker)
+      this.timerState = 'paused'
+    },
+    clearTimer () {
+      console.log("Stop!!!!", this)
+      window.clearInterval(this.ticker)
+      this.currentTimer = 0
+      this.formattedTime = "00:00:00"
+      this.timerState = 'stopped'
+    },
+    tick () {
+      this.ticker = setInterval(() => {
+        this.currentTimer++
+        this.formattedTime = this.formatTime(this.currentTimer)
+      }, 100)
+    },
+    formatTime (milliseconds) {
+      let measuredTime = new Date(null)
+      measuredTime.setMilliseconds(milliseconds * 100)
+      let MHSTime = measuredTime.toISOString()
+      return MHSTime.substr(14,7)
+    }
+  }
+}
 </script>
 
 <style lang="css">
@@ -115,8 +175,59 @@ export default {
   background: #96a4d3;
   cursor: pointer;
   padding: 1rem;
-  font-weight: bolder;
   font-weight: 900;
   font-size: 20px;
+}
+.events {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  grid-gap: 1rem;
+}
+.event {
+  position: reliative;
+  border: 10px solid #36c234;
+  background-color: #bcffb8;
+  padding: 10px 10px 10px 10px;
+  font-weight: 900;
+  font-size: 20px;
+}
+.title {
+  position: reliative;
+  border: 10px solid #36c234;
+  background-color: #86bdc7;
+  padding: 10px 10px 10px 10px;
+  font-weight: 900;
+  font-size: 20px;
+}
+.redScore {
+  background: #a00f0f;
+  color: white;
+  cursor: pointer;
+  padding: 1rem;
+  font-weight: 900;
+  font-size: 20px;
+}
+.blueScore {
+  background: #1330ad;
+  color: white;
+  cursor: pointer;
+  padding: 1rem;
+  font-weight: 900;
+  font-size: 20px;
+}
+.matchTimer {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  grid-gap: 1rem;
+}
+.matchTimerButton {
+  position: reliative;
+  border: 1px solid #5bd658;
+  background-color: #bcffb8;
+  padding: 10px 10px 30px 10px;
+  margin-bottom: 15px;
+  font-weight: 900;
+  font-size: 20px;
+  padding: 1rem;
 }
 </style>
