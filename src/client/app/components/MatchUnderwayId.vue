@@ -3,14 +3,18 @@
     <h1 class="title">Match Underway: {{matchUnderway.id}}</h1>
     <div class="matchTimer">
       <h2>Match Timer1: {{currentMatchTime}} </h2>
-      <Timer
-        :timer="formattedTime"
-        :state="timerState"
-        @start="startTimer"
-        @lap="lap"
-        @pause="pause"
-        @clear="clearTimer"
-      />
+      <div class="timer">
+        <p>------------------------Timer------------------------</p>
+          <div>
+            <h4>Timer: {{ formattedTime }}</h4>
+            <h4>State: {{ timerState }}</h4>
+            <button @click="startTimer">Start</button>
+            <button @click="lap">Lap</button>
+            <button @click="pause">Pause</button>
+            <button @click="clearTimer">Clear</button>
+          </div>
+        <p>------------------------Timer------------------------</p>
+      </div>
 
       <button class="matchTimerButton" @click="matchTimerToggle()" v-show="!matchInProgress"> Start</button>
       <button class="matchTimerButton" @click="matchTimerToggle()" v-show="matchInProgress"> Stop</button>
@@ -63,7 +67,6 @@ import Timer from './Timer.vue'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
-  components: {Timer},
   created() {this.getMatchUnderway(this.$route.params.id)},
   watch: {
     matchInProgress: function (timerOn, timerOff) {
