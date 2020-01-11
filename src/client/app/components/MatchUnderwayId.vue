@@ -69,14 +69,6 @@ import { mapGetters, mapActions } from 'vuex'
 
 export default {
   created() {this.getMatchUnderway(this.$route.params.id)},
-  computed: { ...mapGetters([
-    'matchUnderway',
-    'matchTime1',
-    'redScore',
-    'blueScore',
-    'matchInProgress']),
-    matchTimeInSeconds() { return this.currentTimer / 10 }
-  },
   data: function () {
     return {
       currentMatchTime : Date.now(),
@@ -94,6 +86,14 @@ export default {
       console.log("Timer Off: ", timerOff)
     }
   },
+  computed: { ...mapGetters([
+    'matchUnderway',
+    'redScore',
+    'blueScore',
+    'matchInProgress']),
+    matchTimeInSeconds() {
+      return this.currentTimer / 10 }
+  },
   methods: { ...mapActions([
     'matchTimerToggle',
     'getMatchUnderway',
@@ -101,7 +101,6 @@ export default {
     'reversal',
     'escape',
     'nearfall']),
-
     redTakedown() {
       this.takedown({
         wrestler: 'wrestler1',
