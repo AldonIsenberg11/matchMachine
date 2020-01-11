@@ -3,6 +3,8 @@
     <h1 class="title">Match Underway: {{matchUnderway.id}}</h1>
     <div class="matchTimer">
       <h2>Match Timer1: {{formattedTime}} </h2>
+      <h2>Current timer: {{currentTimer}} </h2>
+      <h2>Match Time in Seconds: {{matchTimeInSeconds}} </h2>
       <div class="timer">
         <p>------------------------Timer------------------------</p>
           <div>
@@ -67,58 +69,103 @@ import { mapGetters, mapActions } from 'vuex'
 
 export default {
   created() {this.getMatchUnderway(this.$route.params.id)},
+  computed: { ...mapGetters([
+    'matchUnderway',
+    'matchTime1',
+    'redScore',
+    'blueScore',
+    'matchInProgress']),
+    matchTimeInSeconds() { return this.currentTimer / 10 }
+  },
+  data: function () {
+    return {
+      currentMatchTime : Date.now(),
+      timerState: 'stopped',
+      currentTimer: 0,
+      formattedTime: "00:00:0",
+      ticker: 0,
+      laps: [],
+      latestLap: ""
+    }
+  },
   watch: {
     matchInProgress: function (timerOn, timerOff) {
       console.log("Timer On: ", timerOn)
       console.log("Timer Off: ", timerOff)
     }
   },
-  computed: mapGetters(['matchUnderway', 'matchTime1', 'redScore', 'blueScore', 'matchInProgress']),
-  data: function () {
-    return {
-      currentMatchTime : Date.now(),
-      timerState: 'stopped',
-      currentTimer: 0,
-      formattedTime: "00:00:00",
-      ticker: 0,
-      laps: [],
-      latestLap: ""
-    }
-  },
   methods: { ...mapActions([
     'matchTimerToggle',
     'getMatchUnderway',
-    'redTakedown',
-    'redReversal',
-    'redEscape',
-    'redNearfall',
-    'blueTakedown',
-    'blueReversal',
-    'blueEscape',
-    'blueNearfall' ]),
+    'takedown',
+    'reversal',
+    'escape',
+    'nearfall']),
+
+    redTakedown() {
+      this.takedown({
+        wrestler: 'wrestler1',
+        matchSeconds: this.matchTimeInSeconds })},
+
+    blueTakedown() {
+      this.takedown({
+        wrestler: 'wrestler2',
+        matchSeconds: this.matchTimeInSeconds })},
+
+    redReversal() {
+      this.reversal({
+        wrestler: 'wrestler1',
+        matchSeconds: this.matchTimeInSeconds })},
+
+    blueReversal() {
+      this.reversal({
+        wrestler: 'wrestler2',
+        matchSeconds: this.matchTimeInSeconds })},
+
+    redEscape() {
+      this.escape({
+        wrestler: 'wrestler1',
+        matchSeconds: this.matchTimeInSeconds })},
+
+    blueEscape() {
+      this.escape({
+        wrestler: 'wrestler2',
+        matchSeconds: this.matchTimeInSeconds })},
+
+    redNearfall (points) {
+      this.nearfall({
+        points: points,
+        wrestler: 'wrestler1',
+        matchSeconds: this.matchTimeInSeconds })},
+
+    blueNearfall (points) {
+      this.nearfall({
+        points: points,
+        wrestler: 'wrestler2',
+        matchSeconds: this.matchTimeInSeconds })},
 
     startTimer () {
-      this.matchTimerToggle(this.formatTime(this.currentTimer))
+      this.matchTimerToggle(this.matchTimeInSeconds)
       if (this.timerState !== 'running') {
         this.tick()
         this.timerState = 'running'
-      }
+      }333
     },
-    lap () {
-      this.laps.push({
-        seconds: this.currentTimer,
-        formattedTime: this.formatTime(this.currentTimer)
-      })
-      this.latestLap = this.formatTime(this.currentTimer)
-      this.currentTimer = 0
-    },
+    // Keeping this here to remind myself how to reset timer for next period.
+    // lap () {
+    //   this.laps.push({
+    //     seconds: this.currentTimer,
+    //     formattedTime: this.formatTime(this.currentTimer)
+    //   })
+    //   this.latestLap = this.formatTime(this.currentTimer)
+    //   this.currentTimer = 0
+    // },
     pause () {
       window.clearInterval(this.ticker)
-      this.matchTimerToggle(this.formatTime(this.currentTimer))
+      this.matchTimerToggle(this.matchTimeInSeconds)
       this.timerState = 'paused'
     },
     clearTimer () {
-      console.log("Stop!!!!", this)
       window.clearInterval(this.ticker)
       this.currentTimer = 0
       this.formattedTime = "00:00:00"
