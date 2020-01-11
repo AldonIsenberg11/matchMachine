@@ -149,7 +149,7 @@ export default {
       if (this.timerState !== 'running') {
         this.tick()
         this.timerState = 'running'
-      }333
+      }
     },
     // Keeping this here to remind myself how to reset timer for next period.
     // lap () {
