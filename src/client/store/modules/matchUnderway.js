@@ -61,9 +61,10 @@ const actions = {
   async blueReversal({dispatch})    { return dispatch('reversal', 'wrestler2') },
   async blueEscape(  {dispatch})    { return dispatch('escape'  , 'wrestler2') },
   async blueNearfall({dispatch}, p) { return dispatch('nearfall', 'wrestler2', p) },
-  async matchTimerToggle({dispatch}) {
-    if (this.getters.matchInProgress) { return dispatch('stopTimer') }
-    return dispatch('startTimer') },
+  async matchTimerToggle({dispatch}, matchTime) {
+    console.log(`\n\n\nmatchTime: ${matchTime}\n\n\n`)
+    if (this.getters.matchInProgress) { return dispatch('stopTimer', matchTime) }
+    return dispatch('startTimer', matchTime) },
 
   async takedown({dispatch}, wrestler) {
     const takedown = {
@@ -117,20 +118,20 @@ const actions = {
     return dispatch('addMatchEvent', nearfall) },
 
   //  Functions dispatched to commit mutations
-  async startTimer({commit, dispatch}) {
+  async startTimer({commit, dispatch}, matchTime) {
     commit('startMatch')
     const event = {
       matchId   : state.id,
       type      : 'timer',
       action    : 'start',
-      matchTime : state.matchTime,
+      matchTime : matchTime,
       createdAt : new Date(),
       event     : {}
     }
     dispatch('addMatchEvent', event)
   },
 
-  async stopTimer({commit, dispatch}) {
+  async stopTimer({commit, dispatch}, matchTime) {
     const lastStartTime = state.matchEvents.find((e) => e.type === 'timer' && e.action === 'start')
     console.log('lastStartTime: ', lastStartTime)
     commit('stopMatch')
@@ -138,7 +139,7 @@ const actions = {
       matchId   : state.id,
       type      : 'timer',
       action    : 'stop',
-      matchTime : state.matchTime,
+      matchTime : matchTime,
       createdAt : new Date(),
       event     : {}
     }

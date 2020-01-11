@@ -2,11 +2,11 @@
   <div class="matchUnderway">
     <h1 class="title">Match Underway: {{matchUnderway.id}}</h1>
     <div class="matchTimer">
-      <h2>Match Timer1: {{currentMatchTime}} </h2>
+      <h2>Match Timer1: {{formattedTime}} </h2>
       <div class="timer">
         <p>------------------------Timer------------------------</p>
           <div>
-            <h4>Timer: {{ formattedTime }}</h4>
+            <!-- <h4>Timer: {{ formattedTime }}</h4> -->
             <h4>State: {{ timerState }}</h4>
             <!-- <button @click="startTimer">Start</button>
             <button @click="lap">Lap</button>
@@ -96,9 +96,9 @@ export default {
     'blueReversal',
     'blueEscape',
     'blueNearfall' ]),
+
     startTimer () {
-      console.log('startTimer!@!@')
-      this.matchTimerToggle()
+      this.matchTimerToggle(this.formatTime(this.currentTimer))
       if (this.timerState !== 'running') {
         this.tick()
         this.timerState = 'running'
@@ -114,8 +114,8 @@ export default {
     },
     pause () {
       window.clearInterval(this.ticker)
+      this.matchTimerToggle(this.formatTime(this.currentTimer))
       this.timerState = 'paused'
-      this.matchTimerToggle()
     },
     clearTimer () {
       console.log("Stop!!!!", this)
