@@ -8,16 +8,16 @@
           <div>
             <h4>Timer: {{ formattedTime }}</h4>
             <h4>State: {{ timerState }}</h4>
-            <button @click="startTimer">Start</button>
+            <!-- <button @click="startTimer">Start</button>
             <button @click="lap">Lap</button>
             <button @click="pause">Pause</button>
-            <button @click="clearTimer">Clear</button>
+            <button @click="clearTimer">Clear</button> -->
           </div>
         <p>------------------------Timer------------------------</p>
       </div>
 
-      <button class="matchTimerButton" @click="matchTimerToggle()" v-show="!matchInProgress"> Start</button>
-      <button class="matchTimerButton" @click="matchTimerToggle()" v-show="matchInProgress"> Stop</button>
+      <button class="matchTimerButton" @click="startTimer()" v-show="!matchInProgress"> Start</button>
+      <button class="matchTimerButton" @click="pause()" v-show="matchInProgress"> Stop</button>
 
     </div>
     <div class="score">
@@ -63,7 +63,6 @@
 </template>
 
 <script>
-import Timer from './Timer.vue'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
@@ -99,6 +98,7 @@ export default {
     'blueNearfall' ]),
     startTimer () {
       console.log('startTimer!@!@')
+      this.matchTimerToggle()
       if (this.timerState !== 'running') {
         this.tick()
         this.timerState = 'running'
@@ -115,6 +115,7 @@ export default {
     pause () {
       window.clearInterval(this.ticker)
       this.timerState = 'paused'
+      this.matchTimerToggle()
     },
     clearTimer () {
       console.log("Stop!!!!", this)
