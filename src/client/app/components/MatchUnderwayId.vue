@@ -2,6 +2,7 @@
   <div class="matchUnderway">
     <h1 class="title">Match Underway: {{matchUnderway.id}}</h1>
     <div class="matchTimer">
+      <h2>Current Period: {{period}}</h2>
       <h2>Match Timer1: {{formattedTime}} </h2>
       <h2>Current timer: {{currentTimer}} </h2>
       <h2>Match Time in Seconds: {{matchTimeInSeconds}} </h2>
@@ -71,7 +72,8 @@ export default {
   created() {this.getMatchUnderway(this.$route.params.id)},
   data: function () {
     return {
-      currentMatchTime : Date.now(),
+      currentMatchTime: Date.now(),
+      period: 1,
       timerState: 'stopped',
       currentTimer: 0,
       formattedTime: "00:00:0",
@@ -100,7 +102,8 @@ export default {
     'takedown',
     'reversal',
     'escape',
-    'nearfall']),
+    'nearfall',
+    'periodEnd']),
     redTakedown() {
       this.takedown({
         wrestler: 'wrestler1',
@@ -131,52 +134,50 @@ export default {
         wrestler: 'wrestler2',
         matchSeconds: this.matchTimeInSeconds })},
 
-    redNearfall (points) {
+    redNearfall(points) {
       this.nearfall({
         points: points,
         wrestler: 'wrestler1',
         matchSeconds: this.matchTimeInSeconds })},
 
-    blueNearfall (points) {
+    blueNearfall(points) {
       this.nearfall({
         points: points,
         wrestler: 'wrestler2',
         matchSeconds: this.matchTimeInSeconds })},
 
-    startTimer () {
+    startTimer() {
       this.matchTimerToggle(this.matchTimeInSeconds)
       if (this.timerState !== 'running') {
         this.tick()
         this.timerState = 'running'
       }
     },
-    // Keeping this here to remind myself how to reset timer for next period.
-    // lap () {
-    //   this.laps.push({
-    //     seconds: this.currentTimer,
-    //     formattedTime: this.formatTime(this.currentTimer)
-    //   })
-    //   this.latestLap = this.formatTime(this.currentTimer)
-    //   this.currentTimer = 0
-    // },
-    pause () {
+    pause() {
       window.clearInterval(this.ticker)
       this.matchTimerToggle(this.matchTimeInSeconds)
       this.timerState = 'paused'
     },
-    clearTimer () {
+    clearTimer() {
       window.clearInterval(this.ticker)
       this.currentTimer = 0
       this.formattedTime = "00:00:00"
       this.timerState = 'stopped'
     },
-    tick () {
+    tick() {
       this.ticker = setInterval(() => {
         this.currentTimer++
         this.formattedTime = this.formatTime(this.currentTimer)
+        if (this.currentTimer >= 100) { this.handlePeriodEnd(this.currentTimer)}
       }, 100)
     },
-    formatTime (milliseconds) {
+    handlePeriodEnd() {
+      this.pause()
+      this.period++ // Will need to handle this in the store, but for now this is a placeholder
+      this.clearTimer()
+      this.periodEnd()
+    },
+    formatTime(milliseconds) {
       let measuredTime = new Date(null)
       measuredTime.setMilliseconds(milliseconds * 100)
       let MHSTime = measuredTime.toISOString()
