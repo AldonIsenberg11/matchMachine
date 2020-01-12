@@ -45,8 +45,21 @@ const getters = {
 
 const actions = {
   async matchTimerToggle({dispatch}, matchTime) {
-    if (this.getters.matchInProgress) { return dispatch('stopTimer', matchTime) }
-    return dispatch('startTimer', matchTime) },
+    if (this.getters.matchInProgress) { dispatch('stopTimer', matchTime) }
+    else { dispatch('startTimer', matchTime) }},
+
+  async periodEnd({dispatch}, period) {
+    const event = {
+      matchId   : state.id,
+      type      : 'timer',
+      action    : 'periodEnd',
+      matchTime : matchSeconds,
+      createdAt : new Date(),
+      result    : {
+        controlChange  : wrestler,
+        wrestlerAwarded : wrestler,
+        pointsAwarded   : 2 }}
+    dispatch('addMatchEvent', event) },
 
   async takedown({dispatch}, data) {
     let { wrestler, matchSeconds } = data
@@ -59,8 +72,8 @@ const actions = {
       result    : {
         controlChange  : wrestler,
         wrestlerAwarded : wrestler,
-        pointsAwarded   : 2, } }
-    return dispatch('addMatchEvent', takedown) },
+        pointsAwarded   : 2 } }
+    dispatch('addMatchEvent', takedown) },
 
   async reversal({dispatch}, data) {
     let { wrestler, matchSeconds } = data
@@ -74,7 +87,7 @@ const actions = {
         controlChange   : wrestler,
         wrestlerAwarded : wrestler,
         pointsAwarded   : 2, } }
-    return dispatch('addMatchEvent', reversal) },
+    dispatch('addMatchEvent', reversal) },
 
   async escape({dispatch}, data) {
     let { wrestler, matchSeconds } = data
@@ -88,7 +101,7 @@ const actions = {
         controlChange   : "neutral",
         wrestlerAwarded : wrestler,
         pointsAwarded   : 1, } }
-    return dispatch('addMatchEvent', escape) },
+    dispatch('addMatchEvent', escape) },
 
   async nearfall({dispatch}, data) {
     let { wrestler, matchSeconds, points } = data
@@ -101,7 +114,7 @@ const actions = {
       result    : {
         wrestlerAwarded : wrestler,
         pointsAwarded   : points, } }
-    return dispatch('addMatchEvent', nearfall) },
+    dispatch('addMatchEvent', nearfall) },
 
   //  Functions dispatched to commit mutations
   async startTimer({commit, dispatch}, matchTime) {
