@@ -1,6 +1,7 @@
 import _ from 'lodash'
 import moment from 'moment'
 import axios from 'axios'
+
 const matchUrl = 'api/match/'
 const wrestlerUrl = 'api/wrestlers/'
 const matchEventUrl = 'api/match/matchEvent/'
@@ -28,20 +29,10 @@ const getters = {
   matchInProgress: (state) => state.matchIsLive,
 
   lastStart: (state) => {
-    state.matchEvents.find((e) => e.type === 'start')
-  },
+    state.matchEvents.find((e) => e.type === 'start')},
 
   lastStop: (state) => {
-    const lastStartEvent = state.matchEvents.find((e) => e.type === 'timer' && e.action === 'start')
-  },
-
-  matchTime1: (state) => {
-    // let createdAt = 'bbbbbbb'
-    // let {createdAt} = state.matchEvents.find((e) => e.type === 'timer' && e.action === 'start')
-    // console.log("lastStartTime", (createdAt || 'noth') )
-    // return (Date.now() - Date.parse(lastStartTime.createdAt)) / 1000
-    return state.matchTime
-  },
+    state.matchEvents.find((e) => e.type === 'timer' && e.action === 'start')},
 
   redScore: (state) => {return _.sum(state.matchEvents
     .filter((event) => (event.type === "scoring" && event.result.wrestlerAwarded === 'wrestler1'))
@@ -53,24 +44,17 @@ const getters = {
 }
 
 const actions = {
-  async redTakedown( {dispatch})    { return dispatch('takedown', 'wrestler1') },
-  async redReversal( {dispatch})    { return dispatch('reversal', 'wrestler1') },
-  async redEscape(   {dispatch})    { return dispatch('escape'  , 'wrestler1') },
-  async redNearfall( {dispatch}, p) { return dispatch('nearfall', 'wrestler1', p) },
-  async blueTakedown({dispatch})    { return dispatch('takedown', 'wrestler2') },
-  async blueReversal({dispatch})    { return dispatch('reversal', 'wrestler2') },
-  async blueEscape(  {dispatch})    { return dispatch('escape'  , 'wrestler2') },
-  async blueNearfall({dispatch}, p) { return dispatch('nearfall', 'wrestler2', p) },
-  async matchTimerToggle({dispatch}) {
-    if (this.getters.matchInProgress) { return dispatch('stopTimer') }
-    return dispatch('startTimer') },
+  async matchTimerToggle({dispatch}, matchTime) {
+    if (this.getters.matchInProgress) { return dispatch('stopTimer', matchTime) }
+    return dispatch('startTimer', matchTime) },
 
-  async takedown({dispatch}, wrestler) {
+  async takedown({dispatch}, data) {
+    let { wrestler, matchSeconds } = data
     const takedown = {
       matchId   : state.id,
       type      : 'scoring',
       action    : 'takedown',
-      matchTime : '00:11:45',
+      matchTime : matchSeconds,
       createdAt : new Date(),
       result    : {
         controlChange  : wrestler,
@@ -78,12 +62,13 @@ const actions = {
         pointsAwarded   : 2, } }
     return dispatch('addMatchEvent', takedown) },
 
-  async reversal({dispatch}, wrestler) {
+  async reversal({dispatch}, data) {
+    let { wrestler, matchSeconds } = data
     const reversal = {
       matchId   : state.id,
       type      : 'scoring',
       action    : 'reversal',
-      matchTime : '00:31:84',
+      matchTime : matchSeconds,
       createdAt : new Date(),
       result    : {
         controlChange   : wrestler,
@@ -91,12 +76,13 @@ const actions = {
         pointsAwarded   : 2, } }
     return dispatch('addMatchEvent', reversal) },
 
-  async escape({dispatch}, wrestler) {
+  async escape({dispatch}, data) {
+    let { wrestler, matchSeconds } = data
     const escape = {
       matchId   : state.id,
       type      : 'scoring',
       action    : 'escape',
-      matchTime : '01:31:84',
+      matchTime : matchSeconds,
       createdAt : new Date(),
       result    : {
         controlChange   : "neutral",
@@ -104,12 +90,13 @@ const actions = {
         pointsAwarded   : 1, } }
     return dispatch('addMatchEvent', escape) },
 
-  async nearfall({dispatch}, wrestler, points) {
+  async nearfall({dispatch}, data) {
+    let { wrestler, matchSeconds, points } = data
     const nearfall = {
       matchId   : state.id,
       type      : 'scoring',
       action    : 'nearfall',
-      matchTime : '01:31:84',
+      matchTime : matchSeconds,
       createdAt : new Date(),
       result    : {
         wrestlerAwarded : wrestler,
@@ -117,28 +104,26 @@ const actions = {
     return dispatch('addMatchEvent', nearfall) },
 
   //  Functions dispatched to commit mutations
-  async startTimer({commit, dispatch}) {
-    commit('startMatch')
+  async startTimer({commit, dispatch}, matchTime) {
+    commit('startMatch', matchTime)
     const event = {
       matchId   : state.id,
       type      : 'timer',
       action    : 'start',
-      matchTime : state.matchTime,
+      matchTime : matchTime,
       createdAt : new Date(),
       event     : {}
     }
     dispatch('addMatchEvent', event)
   },
 
-  async stopTimer({commit, dispatch}) {
-    const lastStartTime = state.matchEvents.find((e) => e.type === 'timer' && e.action === 'start')
-    console.log('lastStartTime: ', lastStartTime)
-    commit('stopMatch')
+  async stopTimer({commit, dispatch}, matchTime) {
+    commit('stopMatch', matchTime)
     const event = {
       matchId   : state.id,
       type      : 'timer',
       action    : 'stop',
-      matchTime : state.matchTime,
+      matchTime : matchTime,
       createdAt : new Date(),
       event     : {}
     }
@@ -173,10 +158,12 @@ const actions = {
 const mutations = {
   increaseTimer: (state) => { state.matchTime += 10 },
 
-  startMatch: (state) => {
+  startMatch: (state, matchTime) => {
+    state.matchTime = matchTime
     state.matchIsLive = true },
 
-  stopMatch: (state) => {
+  stopMatch: (state, matchTime) => {
+    state.matchTime = matchTime
     state.matchIsLive = false
     state.lastStoppage = new Date() },
 

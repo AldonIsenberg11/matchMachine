@@ -10,7 +10,7 @@
         v-bind:item="match.data"
         v-bind:key="match._id"
         v-on:dblclick="deleteMatch(match._id)">
-          <p class="text">{{ JSON.stringify(match, null, 2) }}</p>
+        <p class="text">{{ JSON.stringify(match, null, 2) }}</p>
       </div>
     </div>
   </div>
