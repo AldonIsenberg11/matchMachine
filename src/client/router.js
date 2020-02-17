@@ -26,50 +26,31 @@ export default new Router({
       // // route level code-splitting
       // // this generates a separate chunk (about.[hash].js) for this route
       // // which is lazy-loaded when the route is visited.
-      // component: () => import(/* webpackChunkName: "match" */ './client/views/Match.vue')
+      // component: () => import(/* webpackChunkName: "match" */ './client/views/NewMatch.vue')
       component: NewMatch
     },
     {
-      path: '/matchUnderway/:id', component: MatchUnderwayId
+      path: '/matchUnderway/:id',
+      component: MatchUnderwayId
     },
     {
       path: '/wrestlers',
       name: 'wrestlers',
-      // TODO: Get this lazy loading working
-      // // route level code-splitting
-      // // this generates a separate chunk (about.[hash].js) for this route
-      // // which is lazy-loaded when the route is visited.
-      // component: () => import(/* webpackChunkName: "matchUnderway" */ './client/views/MatchUnderway.vue')
       component: Wrestlers
     },
     {
       path: '/wrestlers',
       name: 'wrestlers',
-      // TODO: Get this lazy loading working
-      // // route level code-splitting
-      // // this generates a separate chunk (about.[hash].js) for this route
-      // // which is lazy-loaded when the route is visited.
-      // component: () => import(/* webpackChunkName: "matchUnderway" */ './client/views/MatchUnderway.vue')
       component: Wrestlers
     },
     {
       path: '/matches',
       name: 'matches',
-      // TODO: Get this lazy loading working
-      // // route level code-splitting
-      // // this generates a separate chunk (about.[hash].js) for this route
-      // // which is lazy-loaded when the route is visited.
-      // component: () => import(/* webpackChunkName: "matchUnderway" */ './client/views/MatchUnderway.vue')
       component: Matches
     },
     {
       path: '/matchesUnderway',
       name: 'matchesUnderway',
-      // TODO: Get this lazy loading working
-      // // route level code-splitting
-      // // this generates a separate chunk (about.[hash].js) for this route
-      // // which is lazy-loaded when the route is visited.
-      // component: () => import(/* webpackChunkName: "matchUnderway" */ './client/views/MatchUnderway.vue')
       component: MatchesUnderway
     },
     {
