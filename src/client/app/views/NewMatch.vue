@@ -8,8 +8,10 @@
         </h2>
         <select v-model="greenSelected">
           <option disabled value="">Please select one</option>
-          <option v-for="wrestler in allWrestlers" v-bind:value="wrestler._id">
-            {{ wrestler.name }}
+          <option v-for="wrestler in allWrestlers"
+            :key="wrestler._id"
+            :value="wrestler._id">
+              {{ wrestler.name }}
           </option>
         </select>
       </div>
@@ -19,8 +21,10 @@
         </h2>
         <select v-model="redSelected">
           <option disabled value="">Please select one</option>
-          <option v-for="wrestler in allWrestlers" v-bind:value="wrestler._id">
-            {{ wrestler.name }}
+          <option v-for="wrestler in allWrestlers"
+            v-bind:key="wrestler._id"
+            v-bind:value="wrestler._id">
+              {{ wrestler.name }}
           </option>
         </select>
       </div>
