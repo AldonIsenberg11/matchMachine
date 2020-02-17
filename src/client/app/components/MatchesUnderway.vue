@@ -6,7 +6,7 @@
       <div class="matches"
         v-for="match in allMatches"
         :key="match._id"
-        v-on:dblclick="deleteMatchUnderway(match._id)">
+        v-on:dblclick="deleteMatch(match._id)">
         <h3>MatchId: {{match._id}}</h3>
         <p> Wrestler1: {{match.wrestler1}}</p>
         <p> Wrestler2: {{match.wrestler2}}</p>

@@ -2,8 +2,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './app/views/Home.vue'
 import NewMatch from './app/views/NewMatch.vue'
-import MatchUnderway from './app/views/MatchUnderway.vue'
-import MatchUnderwayId from './app/components/MatchUnderwayId.vue'
+import MatchUnderwayId from './app/views/MatchUnderwayId.vue'
+// import Wrestlers from './app/components/AddWrestler.vue'
 import Wrestlers from './app/views/Wrestlers.vue'
 import Matches from './app/components/ListOfMatches.vue'
 import MatchesUnderway from './app/components/MatchesUnderway.vue'
@@ -28,16 +28,6 @@ export default new Router({
       // // which is lazy-loaded when the route is visited.
       // component: () => import(/* webpackChunkName: "match" */ './client/views/Match.vue')
       component: NewMatch
-    },
-    {
-      path: '/matchUnderway',
-      name: 'matchUnderway',
-      // TODO: Get this lazy loading working
-      // // route level code-splitting
-      // // this generates a separate chunk (about.[hash].js) for this route
-      // // which is lazy-loaded when the route is visited.
-      // component: () => import(/* webpackChunkName: "matchUnderway" */ './client/views/MatchUnderway.vue')
-      component: MatchUnderway
     },
     {
       path: '/matchUnderway/:id', component: MatchUnderwayId

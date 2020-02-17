@@ -8,7 +8,7 @@
         </h2>
         <select v-model="greenSelected">
           <option disabled value="">Please select one</option>
-          <option v-for="wrestler in wrestlers" v-bind:value="wrestler._id">
+          <option v-for="wrestler in allWrestlers" v-bind:value="wrestler._id">
             {{ wrestler.name }}
           </option>
         </select>
@@ -19,7 +19,7 @@
         </h2>
         <select v-model="redSelected">
           <option disabled value="">Please select one</option>
-          <option v-for="wrestler in wrestlers" v-bind:value="wrestler._id">
+          <option v-for="wrestler in allWrestlers" v-bind:value="wrestler._id">
             {{ wrestler.name }}
           </option>
         </select>
@@ -32,14 +32,13 @@
 </template>
 
 <script>
-import { mapActions }  from 'vuex'
-import MatchService    from '../../services/MatchService'
-import WrestlerService from '../../services/WrestlerService'
+import { mapGetters, mapActions }  from 'vuex'
 
 export default {
   name: 'WrestlerComponent',
+  computed: mapGetters(['allWrestlers']),
   methods: {
-    ...mapActions(['createMatch']),
+    ...mapActions(['createMatch', 'getWrestlers']),
     createNewMatch () {
       let newMatch = {
         wrestler1: this.greenSelected,
@@ -63,12 +62,7 @@ export default {
     }
   },
   async created() {
-    try {
-      this.wrestlers = await WrestlerService.getWrestlers()
-      console.log("Wrestlers: ", this.wrestlers)
-    } catch(err) {
-      this.error = err.message
-    }
+    this.getWrestlers()
   }
 }
 </script>
