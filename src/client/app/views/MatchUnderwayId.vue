@@ -30,22 +30,38 @@
         <div class="redScore">Red Score: {{redScore}}</div>
         <div class="blueScore">Blue Score: {{blueScore}}</div>
         <div class="redActions">
-          <button class="redActionButtons" @click="redTakedown()"> Red Takedown</button>
-          <button class="redActionButtons" @click="redEscape()"> Red Escape</button>
-          <button class="redActionButtons" @click="redReversal()"> Red Reversal</button>
-          <button class="redActionButtons" @click="redNearfall(2)"> Red Nearfall2</button>
-          <button class="redActionButtons" @click="redNearfall(3)"> Red Nearfall3</button>
-          <button class="redActionButtons" @click="redNearfall(4)"> Red Nearfall4</button>
-          <button class="redActionButtons" @click="console.log('PIN!')"> Red Pin</button>
+          <button v-show="neutral"
+            class="redActionButtons" @click="redTakedown()"> Red Takedown</button>
+          <button v-show="blueControl"
+            class="redActionButtons" @click="redEscape()"> Red Escape</button>
+          <button v-show="blueControl"
+            class="redActionButtons" @click="redReversal()"> Red Reversal</button>
+          <button v-show="redControl"
+            class="redActionButtons" @click="redNearfall(2)"> Red Nearfall2</button>
+          <button v-show="redControl"
+            class="redActionButtons" @click="redNearfall(3)"> Red Nearfall3</button>
+          <button v-show="redControl"
+            class="redActionButtons" @click="redNearfall(4)"> Red Nearfall4</button>
+          <button v-show="redControl"
+            class="redActionButtons" @click="console.log('PIN!')"> Red Pin</button>
+          <button class="redActionButtons">Red Penalty</button>
         </div>
         <div class="blueActions">
-          <button class="blueActionButtons" @click="blueTakedown()"> Blue Takedown</button>
-          <button class="blueActionButtons" @click="blueEscape()"> Blue Escape</button>
-          <button class="blueActionButtons" @click="blueReversal()"> Blue Reversal</button>
-          <button class="blueActionButtons" @click="blueNearfall(2)"> Blue Nearfall2</button>
-          <button class="blueActionButtons" @click="blueNearfall(3)"> Blue Nearfall3</button>
-          <button class="blueActionButtons" @click="blueNearfall(4)"> Blue Nearfall4</button>
-          <button class="blueActionButtons" @click="console.log('PIN!')"> Blue Pin</button>
+          <button v-show="neutral"
+            class="blueActionButtons" @click="blueTakedown()"> Blue Takedown</button>
+          <button v-show="redControl"
+            class="blueActionButtons" @click="blueEscape()"> Blue Escape</button>
+          <button v-show="redControl"
+            class="blueActionButtons" @click="blueReversal()"> Blue Reversal</button>
+          <button v-show="blueControl"
+            class="blueActionButtons" @click="blueNearfall(2)"> Blue Nearfall2</button>
+          <button v-show="blueControl"
+            class="blueActionButtons" @click="blueNearfall(3)"> Blue Nearfall3</button>
+          <button v-show="blueControl"
+            class="blueActionButtons" @click="blueNearfall(4)"> Blue Nearfall4</button>
+          <button v-show="blueControl"
+            class="blueActionButtons" @click="console.log('PIN!')"> Blue Pin</button>
+          <button class="blueActionButtons">Blue Penalty</button>
         </div>
 
       </div>
@@ -79,7 +95,8 @@ export default {
       formattedTime: "00:00:0",
       ticker: 0,
       laps: [],
-      latestLap: ""
+      latestLap: "",
+      console: console
     }
   },
   watch: {
@@ -90,6 +107,9 @@ export default {
   },
   computed: { ...mapGetters([
     'matchUnderway',
+    'neutral',
+    'redControl',
+    'blueControl',
     'redScore',
     'blueScore',
     'matchInProgress']),
@@ -173,9 +193,9 @@ export default {
     },
     handlePeriodEnd() {
       this.pause()
+      this.periodEnd(this.formattedTime)
       this.period++ // Will need to handle this in the store, but for now this is a placeholder
       this.clearTimer()
-      this.periodEnd()
     },
     formatTime(milliseconds) {
       let measuredTime = new Date(null)

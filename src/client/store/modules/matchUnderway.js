@@ -18,7 +18,7 @@ const state = {
   officials      : [], // info for the referee(s)
   status         : 'created', // [created, paused, 'inProgress', completed, canceled]
   matchEvents    : [], // All actions of a match [ starts, stops, scores, context(ref gave verbal warning to coach, etc.)]
-  control        : 'neutral', // [neutral, redControl, greenControl]
+  control        : 'neutral', // [neutral, redControl, blueControl]
   wrestler1ControlTime : '00:31:84',
   wrestler2ControlTime : moment.duration(100)
 }
@@ -40,7 +40,13 @@ const getters = {
 
   blueScore:(state) => {return _.sum(state.matchEvents
     .filter((event) => (event.type === "scoring" && event.result.wrestlerAwarded === 'wrestler2'))
-    .map((event) => { return (event.result.pointsAwarded || 0) }))}
+    .map((event) => { return (event.result.pointsAwarded || 0) }))},
+
+  neutral: (state) => state.control === "neutral",
+
+  redControl: (state) => state.control === "redControl",
+
+  blueControl: (state) => state.control === "blueControl"
 }
 
 const actions = {
@@ -48,21 +54,21 @@ const actions = {
     if (this.getters.matchInProgress) { dispatch('stopTimer', matchTime) }
     else { dispatch('startTimer', matchTime) }},
 
-  async periodEnd({dispatch}, period) {
+  async periodEnd({dispatch}, matchSeconds) {
     const event = {
       matchId   : state.id,
       type      : 'timer',
       action    : 'periodEnd',
       matchTime : matchSeconds,
-      createdAt : new Date(),
-      result    : {
-        controlChange  : wrestler,
-        wrestlerAwarded : wrestler,
-        pointsAwarded   : 2 }}
+      createdAt : new Date()}
     dispatch('addMatchEvent', event) },
 
-  async takedown({dispatch}, data) {
+  async takedown({commit, dispatch}, data) {
     let { wrestler, matchSeconds } = data
+
+    let control = 'redControl'
+    if (wrestler === 'wrestler2') { control = 'blueControl' }
+
     const takedown = {
       matchId   : state.id,
       type      : 'scoring',
@@ -73,10 +79,15 @@ const actions = {
         controlChange  : wrestler,
         wrestlerAwarded : wrestler,
         pointsAwarded   : 2 } }
-    dispatch('addMatchEvent', takedown) },
+    dispatch('addMatchEvent', takedown)
+      .then(() => commit('changeControl', control)) },
 
-  async reversal({dispatch}, data) {
+  async reversal({commit, dispatch}, data) {
     let { wrestler, matchSeconds } = data
+
+    let control = 'redControl'
+    if (wrestler === 'wrestler2') { control = 'blueControl' }
+
     const reversal = {
       matchId   : state.id,
       type      : 'scoring',
@@ -87,9 +98,10 @@ const actions = {
         controlChange   : wrestler,
         wrestlerAwarded : wrestler,
         pointsAwarded   : 2, } }
-    dispatch('addMatchEvent', reversal) },
+    dispatch('addMatchEvent', reversal)
+      .then(() => commit('changeControl', control)) },
 
-  async escape({dispatch}, data) {
+  async escape({commit, dispatch}, data) {
     let { wrestler, matchSeconds } = data
     const escape = {
       matchId   : state.id,
@@ -101,7 +113,9 @@ const actions = {
         controlChange   : "neutral",
         wrestlerAwarded : wrestler,
         pointsAwarded   : 1, } }
-    dispatch('addMatchEvent', escape) },
+
+    dispatch('addMatchEvent', escape)
+      .then(() => commit('changeControl', 'neutral')) },
 
   async nearfall({dispatch}, data) {
     let { wrestler, matchSeconds, points } = data
@@ -170,6 +184,10 @@ const actions = {
 
 const mutations = {
   increaseTimer: (state) => { state.matchTime += 10 },
+
+  changeControl: (state, control) => {
+    console.log("changing Control: ", control)
+    state.control = control },
 
   startMatch: (state, matchTime) => {
     state.matchTime = matchTime

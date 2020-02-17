@@ -22,9 +22,9 @@ const actions = {
     commit('removeMatch', id) } }
 
 const mutations = {
-  setMatches  : (state, matches) => (state.matches    = matches),
-  setMatch    : (state, match)   => (state.match      = match),
-  removeMatch : (state, matchId) => (state.matches    = state.matches.filter(match => match._id !== matchId)) }
+  setMatches  : (state, matches) => (state.matches = matches),
+  setMatch    : (state, match)   => (state.match   = match),
+  removeMatch : (state, matchId) => (state.matches = state.matches.filter(match => match._id !== matchId)) }
 
 export default {
   state,
