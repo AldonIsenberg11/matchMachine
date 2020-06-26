@@ -1,4 +1,5 @@
 const express   = require("express")
+const helmet    = require("helmet")
 const cors      = require('cors')
 const path      = require('path')
 const db        = require('./services/shared-db')
@@ -8,12 +9,13 @@ const match     = require('./routes/api/match')
 
 const app  = express()
 
-//Connect to DB
-db.connect()
-
 // Middleware
+app.use(helmet())
 app.use(express.json())
 app.use(cors())
+
+//Connect to DB
+db.connect()
 
 // Routes
 app.use('/api/wrestlers', wrestlers)
